@@ -3,8 +3,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    console.log("Mounted Vue");
+    window.parent.postMessage({ pluginMessage: "Hello!" }, "*");
+    window.onmessage = (msg) => {
+      console.log("Nuxt recieved", msg);
+    };
+  },
+};
 </script>
 
 <style>
+html {
+  background: red;
+}
 </style>
