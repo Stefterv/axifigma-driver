@@ -1,16 +1,14 @@
 import electron from "electron";
-import path from "path";
+import icon from "~/static/icon.png";
 
 let win = null;
 
 const app = electron.app;
 const _NUXT_URL_ = `http://localhost:3000`;
 
-debugger;
-
 const newWin = () => {
   win = new electron.BrowserWindow({
-    icon: path.join(__dirname, "../static/icon.png"),
+    icon,
   });
   win.maximize();
   win.on("closed", () => (win = null));

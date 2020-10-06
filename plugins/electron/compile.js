@@ -5,6 +5,7 @@ import proc from "child_process";
 
 export default function() {
   let nuxt = this.nuxt;
+  let electronProc = null;
   this.nuxt.hook("webpack:config", async (builder) => {
     let buildDir = nuxt.options.buildDir + "/electron/";
     let options = cloneDeep(builder[1]);
@@ -16,6 +17,9 @@ export default function() {
     options.output.path = buildDir;
     let runner = webpack(options);
     runner.watch(nuxt.options.watch, (err) => {
+      if (electronProc) {
+        electronProc.kill("SIGINT");
+      }
       const child = proc.spawn(
         electron,
         [nuxt.resolver.resolvePath("~/.nuxt/electron/main.js")],
@@ -36,6 +40,7 @@ export default function() {
           }
         });
       };
+      electronProc = child;
 
       handleTerminationSignal("SIGINT");
       handleTerminationSignal("SIGTERM");
