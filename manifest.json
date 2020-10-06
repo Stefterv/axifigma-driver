@@ -1,0 +1,7 @@
+{
+  "name": "Axidraw",
+  "id": "894885480986230627",
+  "api": "1.0.0",
+  "main": ".nuxt/figma/main.js",
+  "ui": ".nuxt/figma/ui.html"
+}

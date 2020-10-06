@@ -1,0 +1,44 @@
+import cloneDeep from "lodash/cloneDeep";
+import webpack from "webpack";
+import electron from "electron";
+import proc from "child_process";
+
+export default function() {
+  let nuxt = this.nuxt;
+  this.nuxt.hook("webpack:config", async (builder) => {
+    let buildDir = nuxt.options.buildDir + "/electron/";
+    let options = cloneDeep(builder[1]);
+    options.entry = nuxt.resolver.resolvePath("~/plugins/electron/main.js");
+    options.name = "electron";
+    options.watch = true;
+    options.output.filename = "main.js";
+
+    options.output.path = buildDir;
+    let runner = webpack(options);
+    runner.watch(nuxt.options.watch, (err) => {
+      const child = proc.spawn(
+        electron,
+        [nuxt.resolver.resolvePath("~/.nuxt/electron/main.js")],
+        {}
+      );
+      child.on("close", function(code, signal) {
+        if (code === null) {
+          console.error(electron, "exited with signal", signal);
+          process.exit(1);
+        }
+        process.exit(code);
+      });
+
+      const handleTerminationSignal = function(signal) {
+        process.on(signal, function signalHandler() {
+          if (!child.killed) {
+            child.kill(signal);
+          }
+        });
+      };
+
+      handleTerminationSignal("SIGINT");
+      handleTerminationSignal("SIGTERM");
+    });
+  });
+}
