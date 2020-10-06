@@ -1,8 +1,7 @@
 import cloneDeep from "lodash/cloneDeep";
 import webpack from "webpack";
-
-const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+import HtmlWebpackInlineSourcePlugin from "html-webpack-inline-source-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
 export default function() {
   let nuxt = this.nuxt;
