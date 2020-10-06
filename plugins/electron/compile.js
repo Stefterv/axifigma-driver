@@ -25,13 +25,13 @@ export default function() {
         [nuxt.resolver.resolvePath("~/.nuxt/electron/main.js")],
         {}
       );
-      child.on("close", function(code, signal) {
-        if (code === null) {
-          console.error(electron, "exited with signal", signal);
-          process.exit(1);
-        }
-        process.exit(code);
-      });
+      // child.on("close", function(code, signal) {
+      //   if (code === null) {
+      //     console.error(electron, "exited with signal", signal);
+      //     process.exit(1);
+      //   }
+      //   process.exit(code);
+      // });
 
       const handleTerminationSignal = function(signal) {
         process.on(signal, function signalHandler() {
