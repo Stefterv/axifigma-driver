@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { registerProperty } from "~/plugins/figma/api";
+import * as Figma from "~/plugins/figma/api";
 import { svgToPlan } from "./helpers/svg";
 
 export default async function(app, inject) {
@@ -23,7 +23,7 @@ export class Saxi {
   }
   listenFigma() {
     if (process.server) return;
-    registerProperty("svg", (svg) => {
+    Figma.registerProperty("svg", (svg) => {
       let plan = svgToPlan(svg);
       this.state.plan = plan;
     });
