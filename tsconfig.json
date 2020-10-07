@@ -18,7 +18,8 @@
       "@types/node",
       "@nuxt/types",
       "@figma/plugin-typings",
-      "./plugins/saxi/helpers/flatten"
+      "./plugins/saxi/helpers/flatten",
+      "./plugins/saxi/helpers/planning"
     ]
   },
   "exclude": ["node_modules"]

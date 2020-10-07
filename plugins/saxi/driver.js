@@ -25,6 +25,7 @@ export class Saxi {
     if (process.server) return;
     registerProperty("svg", (svg) => {
       let plan = svgToPlan(svg);
+      this.state.plan = plan;
     });
   }
   createSocket() {
