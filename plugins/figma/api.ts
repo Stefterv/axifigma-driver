@@ -13,3 +13,5 @@ export function registerProperty(
     callback(msg.data[property]);
   });
 }
+
+if (process.client) window.parent.postMessage({ pluginMessage: "👋" }, "*");
