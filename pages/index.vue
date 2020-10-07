@@ -8,7 +8,6 @@
 <script>
 export default {
   mounted() {
-    // console.log("Mounted Vue");
     // window.parent.postMessage({ pluginMessage: "Hello!" }, "*");
     // window.onmessage = (msg) => {
     //   console.log("Nuxt recieved", msg);

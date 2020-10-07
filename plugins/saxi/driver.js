@@ -1,4 +1,5 @@
 import Vue from "vue";
+import { registerProperty } from "~/plugins/figma/api";
 
 export default async function(app, inject) {
   const saxi = new Saxi();
@@ -16,8 +17,22 @@ export class Saxi {
   });
   app = null;
   constructor() {
-    let state = this.state;
+    this.createSocket();
+    this.listenFigma();
+  }
+  listenFigma() {
     if (process.server) return;
+    registerProperty("svg", (svg) => {
+      console.log(svg);
+
+      // convert svg to vector pos
+
+      // get handling functions form saxi
+    });
+  }
+  createSocket() {
+    if (process.server) return;
+    let state = this.state;
 
     this.socket = new WebSocket(`ws://${document.location.host}/saxi/`);
     this.socket.addEventListener("open", () => {
