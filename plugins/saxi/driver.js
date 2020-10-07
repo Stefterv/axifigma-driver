@@ -53,9 +53,8 @@ export class Saxi {
     });
   }
   async checkConnection() {
-    let { $axios } = this.app;
     try {
-      let res = await $axios.get("/saxi/");
+      let res = await this.$axios.get("/saxi/");
       if (res.status == 200) {
         this.state.connected = true;
       } else {
@@ -64,5 +63,11 @@ export class Saxi {
     } catch (err) {
       this.state.connected = false;
     }
+  }
+  async submitPlan() {
+    this.$axios.post("/saxi/plot", this.state.plan.serialize());
+  }
+  get $axios() {
+    return this.app.$axios;
   }
 }
