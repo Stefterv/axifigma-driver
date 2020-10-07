@@ -1,4 +1,10 @@
+import { nuxtPort } from "~/nuxt.config";
+
 let loaded = false;
+
+document.querySelector<HTMLIFrameElement>(
+  "#nuxt"
+)?.src = `http://127.0.0.1:${nuxtPort}`;
 
 window.onmessage = async (msg: any) => {
   console.log("UI recieved", msg);

@@ -1,4 +1,12 @@
+export const nuxtPort = 9000;
+export const saxiPort = 9001;
+
 export default {
+  nuxtPort,
+  saxiPort,
+  server: {
+    port: nuxtPort,
+  },
   buildModules: ["@nuxt/typescript-build"],
   modules: [
     "~/plugins/electron/compile",
@@ -12,7 +20,7 @@ export default {
   },
   proxy: {
     "/saxi/": {
-      target: "http://127.0.0.1:9090",
+      target: `http://127.0.0.1:${saxiPort}`,
       pathRewrite: { "^/saxi/": "" },
     },
   },
