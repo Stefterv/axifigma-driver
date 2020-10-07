@@ -14,7 +14,12 @@
       "~/*": ["./*"],
       "@/*": ["./*"]
     },
-    "types": ["@types/node", "@nuxt/types", "@figma/plugin-typings"]
+    "types": [
+      "@types/node",
+      "@nuxt/types",
+      "@figma/plugin-typings",
+      "./plugins/saxi/helpers/flatten"
+    ]
   },
   "exclude": ["node_modules"]
 }

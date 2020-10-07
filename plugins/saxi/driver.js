@@ -1,5 +1,6 @@
 import Vue from "vue";
 import { registerProperty } from "~/plugins/figma/api";
+import { svgToPlan } from "./helpers/svg";
 
 export default async function(app, inject) {
   const saxi = new Saxi();
@@ -23,11 +24,7 @@ export class Saxi {
   listenFigma() {
     if (process.server) return;
     registerProperty("svg", (svg) => {
-      console.log(svg);
-
-      // convert svg to vector pos
-
-      // get handling functions form saxi
+      let plan = svgToPlan(svg);
     });
   }
   createSocket() {
