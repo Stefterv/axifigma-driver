@@ -4,8 +4,7 @@
   "description": "A driver package for working with the AxiDraw through Figma",
   "main": ".nuxt/electron/main.js",
   "scripts": {
-    "local/dev": "nuxt",
-    "local/native": "electron ."
+    "local/dev": "nuxt"
   },
   "author": "Stef Tervelde",
   "license": "ISC",
