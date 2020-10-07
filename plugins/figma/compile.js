@@ -30,6 +30,12 @@ export default function() {
 
     options.output.path = buildDir;
     let runner = webpack(options);
+    if (!this.nuxt.dev) {
+      runner.run(() => {
+        debugger;
+      });
+      return;
+    }
     runner.watch(nuxt.options.watch, (err) => {});
   });
 }

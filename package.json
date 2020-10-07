@@ -4,14 +4,18 @@
   "description": "A driver package for working with the AxiDraw through Figma",
   "main": ".nuxt/electron/main.js",
   "scripts": {
-    "local/dev": "nuxt"
+    "local/dev": "nuxt",
+    "local/build": "nuxt build",
+    "local/build/test": "electron .",
+    "local/build/test2": "nuxt start",
+    "local/build/test3": "node -v && npm i",
+    "local/pack": "electron-builder",
+    "rebuild": "electron-rebuild -f -w serialport"
   },
   "author": "Stef Tervelde",
   "license": "ISC",
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
-    "electron": "^10.1.3",
-    "electron-builder": "^22.8.1",
     "flatten-svg": "^0.2.1",
     "menubar": "^9.0.1",
     "nuxt": "^2.14.6",
@@ -21,7 +25,25 @@
     "@figma/plugin-typings": "^1.16.1",
     "@nuxt/types": "^2.14.6",
     "@nuxt/typescript-build": "^2.0.3",
+    "electron": "^10.1.3",
+    "electron-builder": "^22.8.1",
     "html-webpack-inline-source-plugin": "0.0.10",
     "html-webpack-plugin": "^3.2.0"
+  },
+  "build": {
+    "appId": "nl.steftervelde.axifigma",
+    "files": [
+      ".nuxt/**/*"
+    ],
+    "protocols": {
+      "name": "axidraw-driver",
+      "schemes": [
+        "axidraw"
+      ]
+    },
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "win": {}
   }
 }

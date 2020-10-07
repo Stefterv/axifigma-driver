@@ -9,6 +9,7 @@
     "sourceMap": true,
     "strict": true,
     "noEmit": true,
+    "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./*"],
@@ -22,5 +23,5 @@
       "./plugins/saxi/helpers/planning"
     ]
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "node_modules/saxi/src/"]
 }

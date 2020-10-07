@@ -16,4 +16,7 @@ export default {
       pathRewrite: { "^/saxi/": "" },
     },
   },
+  typescript: {
+    typeCheck: false,
+  },
 };
