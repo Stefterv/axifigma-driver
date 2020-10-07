@@ -15,7 +15,7 @@
     "electron-builder": "^22.8.1",
     "menubar": "^9.0.1",
     "nuxt": "^2.14.6",
-    "saxi": "github:nornagon/saxi"
+    "saxi": "github:stefterv/saxi"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.16.1",
