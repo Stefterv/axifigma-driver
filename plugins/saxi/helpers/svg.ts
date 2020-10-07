@@ -1,8 +1,6 @@
 import { flattenSVG } from "flatten-svg";
 
 export function svgToPlan(svg: Uint8Array) {
-  // convert svg to vector pos
-  // get handling functions form saxi
   let paths = svgStringToPaths(svg);
   debugger;
 }
@@ -21,6 +19,7 @@ export function svgStringToPaths(svg: Uint8Array) {
 }
 
 export function svgElementToPaths(svg: SVGElement) {
+  // copied from nornagon/saxi/src/ui.tsx/readSvg
   return flattenSVG(svg).map((line: any) => {
     const a = line.points.map(([x, y]: [number, number]) => ({ x, y }));
     (a as any).stroke = line.stroke;
