@@ -1,7 +1,13 @@
 import { menubar } from "menubar";
 import { loadNuxt } from "nuxt";
 
-loadNuxt("start");
+async function startNuxt() {
+  const nuxt = await loadNuxt("start");
+  let server = await nuxt.listen(3000);
+  debugger;
+}
+startNuxt();
+
 const _NUXT_URL_ = `http://localhost:3000`;
 const mb = menubar({
   index: _NUXT_URL_,
