@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "saxi"
-    ]
+    ],
+    "search.exclude": {
+        "**/node_modules": false
+    }
 }

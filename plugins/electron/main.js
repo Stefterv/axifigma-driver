@@ -1,12 +1,19 @@
 import { menubar } from "menubar";
-import { loadNuxt } from "nuxt";
+import { Nuxt, loadNuxtConfig } from "nuxt";
+import saxi from "saxi";
 
 async function startNuxt() {
-  const nuxt = await loadNuxt("start");
+  let rootDir = process.nuxtDir;
+  let config = await loadNuxtConfig({ for: "start", rootDir });
+  config.rootDir = rootDir;
+  config.dev = false;
+  let nuxt = new Nuxt(config);
+  await nuxt.ready();
   let server = await nuxt.listen(3000);
-  debugger;
+  console.log("Nuxt server running at ", server.port);
 }
 startNuxt();
+saxi.server.startServer(9090);
 
 const _NUXT_URL_ = `http://localhost:3000`;
 const mb = menubar({
