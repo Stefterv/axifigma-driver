@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button @click="disengage">disengage motors</button>
     {{ state.path != null ? "Plotter connnected" : "Plotter not connected" }}
   </div>
 </template>
