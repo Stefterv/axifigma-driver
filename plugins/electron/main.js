@@ -4,8 +4,8 @@ import saxi from "saxi";
 import path from "path";
 import { nuxtPort, saxiPort } from "~/nuxt.config";
 
+const rootDir = path.join(__dirname, "../../");
 async function startNuxt() {
-  let rootDir = path.join(__dirname, "../../");
   let config = await loadNuxtConfig({ for: "start", rootDir });
   config.rootDir = rootDir;
   config.dev = false;
@@ -20,7 +20,7 @@ saxi.server.startServer(saxiPort);
 const _NUXT_URL_ = `http://localhost:${nuxtPort}/main`;
 const mb = menubar({
   index: _NUXT_URL_,
-  icon: "static/menubar/icon@2x.png",
+  icon: `${rootDir}/static/menubar/icon@2x.png`,
   showDockIcon: false,
 });
 const { app } = mb;
