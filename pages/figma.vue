@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ plotting }}
+    plotting:{{ plotting }} running:{{ running }}
 
     <details>
       <pre>{{ state }}</pre>
@@ -15,6 +15,9 @@ export default {
   computed: {
     plotting() {
       return this.state.plan != null || this.state.motionIdx >= 0;
+    },
+    running() {
+      return this.state.motionIdx >= 0 && !this.state.paused;
     },
   },
 };

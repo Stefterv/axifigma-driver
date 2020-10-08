@@ -7,8 +7,6 @@
 </template>
 
 <script>
-//Disconnect the saxi alive state from the plotter state
-//Emit up on disconnect to make offline start checking again
 export default {
   data() {
     return {
@@ -37,6 +35,7 @@ export default {
       },
       cancelled() {
         self.state.motionIdx = -1;
+        self.state.plan = null;
       },
     };
     this.socket.addEventListener("message", (e) => {
