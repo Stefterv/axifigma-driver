@@ -45,7 +45,8 @@
         "from": ".",
         "to": ".",
         "filter": [
-          ".nuxt/**/*",
+          ".nuxt/dist/**/*",
+          ".nuxt/electron/**/*",
           "static",
           "package.json",
           "electron.js",
