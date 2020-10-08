@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div>
+      <progress
+        :max="state.plan.motions.length"
+        :value="state.motionIdx"
+      ></progress>
+    </div>
     <button @click="resume" v-if="state.paused">resume</button>
     <button @click="pause" v-else>pause</button>
     <button @click="cancel">cancel</button>

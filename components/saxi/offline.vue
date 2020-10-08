@@ -1,7 +1,7 @@
 <template>
   <div>
     Driver offline
-    <!-- TODO: add check if downloaded before -->
+    <!-- TODO: add check if downloaded before: https://www.figma.com/plugin-docs/api/figma-clientStorage/-->
     <button @click="download">Download!</button>
   </div>
 </template>

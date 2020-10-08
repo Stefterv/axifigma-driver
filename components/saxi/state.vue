@@ -16,6 +16,7 @@ export default {
         motionIdx: -1,
         plan: null,
         path: null,
+        possiblePlan: null,
       },
       socket: null,
     };
