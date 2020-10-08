@@ -1,10 +1,16 @@
 <template>
-  <div>Test</div>
+  <div>Vue here<iframe :src="`http://127.0.0.1:${nuxtPort}`"></iframe></div>
 </template>
 
 <script>
+let loaded = false;
+import { nuxtPort } from "~/nuxt.config";
 export default {
-  data() {},
+  data() {
+    return {
+      nuxtPort,
+    };
+  },
   mounted() {
     checkPageLoaded();
     async function checkPageLoaded() {
@@ -33,4 +39,9 @@ export default {
 </script>
 
 <style>
+iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 </style>
