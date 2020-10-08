@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Request current svg from figma, listen to document changes
-  </div>
+  <div>Request current svg from figma, listen to document changes</div>
 </template>
 
 <script>

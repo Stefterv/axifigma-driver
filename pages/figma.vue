@@ -1,9 +1,8 @@
 <template>
   <div>
-    plotting:{{ plotting }} running:{{ running }}
-
+    <nuxt-child></nuxt-child>
     <details>
-      <pre>{{ state }}</pre>
+      <pre>{{ { ...state, plotting, running } }}</pre>
     </details>
   </div>
 </template>
@@ -18,6 +17,16 @@ export default {
     },
     running() {
       return this.state.motionIdx >= 0 && !this.state.paused;
+    },
+  },
+  watch: {
+    plotting: {
+      handler(plotting) {
+        if (plotting) this.$router.push("/figma/plotting");
+        else if (this.$route.path == "/figma/plotting")
+          this.$router.push("/figma/prepare");
+      },
+      immediate: true,
     },
   },
 };
