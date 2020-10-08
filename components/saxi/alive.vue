@@ -1,116 +1,85 @@
 <template>
   <div>
-    <Provide :state="state">
-      <slot v-bind="state" />
-    </Provide>
+    <slot v-bind:connected="connected" />
   </div>
 </template>
 
 <script>
-// TODO: Retry websocket connection instead of http one
-// TODO: Remove driver state from alive test
-
 export default {
   data() {
     return {
-      state: {
-        connected: false,
-        paused: true,
-        motionIdx: -1,
-        plan: null,
-        path: null,
-      },
+      connected: false,
       socket: null,
+      isDestroyed: false,
     };
   },
   async fetch() {
-    await this.checkConnection();
+    await this.connect();
   },
   methods: {
-    async checkConnection() {
-      try {
-        let { status, data } = await this.connect();
-        if (status == 200) {
-          this.state.connected = true;
-        } else {
-          throw "No Connection";
-        }
-      } catch (err) {
-        this.state.connected = false;
-      }
-    },
-    createSocket() {
+    async connect() {
       let self = this;
+      // check if http repsonse
+      this.connected = false;
+      async function* connection() {
+        yield await self.http();
+        if (process.server) return;
 
-      this.socket = this.websocket();
-      this.socket.addEventListener("open", () => {
-        self.state.connected = true;
-      });
-      this.socket.addEventListener("close", (close) => {
-        self.state.connected = false;
-        self.socket = null;
-      });
-      // command : `data ->` property
-      let options = {
-        pause: "paused",
-        progress: "motionIdx",
-        plan: "plan",
-        dev: "path",
-        finished() {
-          self.state.motionIdx = -1;
-          self.state.paused = true;
-        },
-        cancelled() {
-          self.state.motionIdx = -1;
-        },
-      };
-      this.socket.addEventListener("message", (e) => {
-        if (typeof e.data !== "string") return;
-
-        const msg = JSON.parse(e.data);
-        for (let option in options) {
-          if (msg.c != option) continue;
-          let prop = options[option];
-          if (prop instanceof Function) {
-            options[option]();
-          } else {
-            this.state[prop] = msg.p[prop];
-          }
-        }
-      });
+        yield await self.createSocket();
+        yield await self.socketConnected();
+        yield await self.socketDisconnected();
+      }
+      for await (let step of connection()) {
+        this.connected = step;
+        if (!step) return;
+      }
+      this.connected = true;
     },
-    connect() {
-      return this.$axios.get("/saxi/");
-    },
-    websocket() {
-      return new WebSocket(`ws://${document.location.host}/saxi/`);
-    },
-  },
-  mounted() {
-    this.createSocket();
-  },
-  watch: {
-    async "state.connected"(connected) {
-      if (connected && !this.socket) this.createSocket();
-      if (connected) return;
-
-      while (this.state.connected) {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        await this.checkConnection();
+    async http() {
+      if (this.connected) return true;
+      try {
+        let { status, data } = await this.$axios.get("/saxi/");
+        return status == 200;
+      } catch (err) {
+        console.error(err);
+        return false;
       }
     },
-  },
-  components: {
-    Provide: {
-      provide() {
-        return this.$attrs;
-      },
-      render() {
-        return this.$scopedSlots.default({});
-      },
+    async createSocket() {
+      try {
+        this.socket = new WebSocket(`ws://${document.location.host}/saxi/`);
+        return true;
+      } catch (err) {
+        return false;
+      }
     },
+    socketConnected() {
+      let self = this;
+      return new Promise((resolve) => {
+        this.socket.addEventListener("open", () => {
+          resolve(true);
+        });
+      });
+    },
+    socketDisconnected() {
+      let self = this;
+      return new Promise((resolve) => {
+        this.socket.addEventListener("close", () => {
+          resolve(false);
+        });
+      });
+    },
+  },
+  async mounted() {
+    while (!this.isDestroyed) {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      console.warn("Retrying connection");
+      await this.connect();
+    }
+  },
+  destroyed() {
+    this.isDestroyed = true;
   },
 };
 </script>
 
-<style></style>
