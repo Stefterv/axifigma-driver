@@ -10,7 +10,7 @@ export default function() {
     let options = cloneDeep(builder[1]);
     options.entry = {
       main: nuxt.resolver.resolvePath("~/plugins/figma/main.ts"),
-      ui: nuxt.resolver.resolvePath("~/plugins/figma/ui.ts"),
+      ui: nuxt.resolver.resolvePath("~/plugins/figma/ui.js"),
     };
     options.name = "figma";
     options.watch = true;
