@@ -1,11 +1,14 @@
 <template>
   <div>
-    <slot v-bind="state" />
+    <Provide :state="state">
+      <slot v-bind="state" />
+    </Provide>
   </div>
 </template>
 
 <script>
 // TODO: Retry websocket connection instead of http one
+// TODO: Remove driver state from alive test
 
 export default {
   data() {
@@ -13,14 +16,15 @@ export default {
       state: {
         connected: false,
         paused: true,
-        motionIdx: 0,
+        motionIdx: -1,
         plan: null,
+        path: null,
       },
       socket: null,
     };
   },
-  fetch() {
-    this.checkConnection();
+  async fetch() {
+    await this.checkConnection();
   },
   methods: {
     async checkConnection() {
@@ -46,8 +50,20 @@ export default {
         self.state.connected = false;
         self.socket = null;
       });
-
-      let options = { pause: "paused", progress: "motionIdx", plan: "plan" };
+      // command : `data ->` property
+      let options = {
+        pause: "paused",
+        progress: "motionIdx",
+        plan: "plan",
+        dev: "path",
+        finished() {
+          self.state.motionIdx = -1;
+          self.state.paused = true;
+        },
+        cancelled() {
+          self.state.motionIdx = -1;
+        },
+      };
       this.socket.addEventListener("message", (e) => {
         if (typeof e.data !== "string") return;
 
@@ -55,7 +71,11 @@ export default {
         for (let option in options) {
           if (msg.c != option) continue;
           let prop = options[option];
-          this.state[prop] = msg.p[prop];
+          if (prop instanceof Function) {
+            options[option]();
+          } else {
+            this.state[prop] = msg.p[prop];
+          }
         }
       });
     },
@@ -78,6 +98,16 @@ export default {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         await this.checkConnection();
       }
+    },
+  },
+  components: {
+    Provide: {
+      provide() {
+        return this.$attrs;
+      },
+      render() {
+        return this.$scopedSlots.default({});
+      },
     },
   },
 };

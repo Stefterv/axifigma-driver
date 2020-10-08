@@ -1,12 +1,14 @@
 <template>
   <Alive v-slot="state">
-    <template v-if="state.connected">Connected!</template>
+    <iframe
+      v-if="state.connected"
+      :src="`http://127.0.0.1:${nuxtPort}/figma`"
+    ></iframe>
     <Offline v-else> </Offline>
   </Alive>
 </template>
 
 <script>
-let loaded = false;
 import { nuxtPort } from "~/nuxt.config";
 import Alive from "./saxi/alive";
 import Offline from "~/components/saxi/offline";

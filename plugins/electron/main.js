@@ -17,7 +17,7 @@ async function startNuxt() {
 startNuxt();
 saxi.server.startServer(saxiPort);
 
-const _NUXT_URL_ = `http://localhost:${nuxtPort}`;
+const _NUXT_URL_ = `http://localhost:${nuxtPort}/main`;
 const mb = menubar({
   index: _NUXT_URL_,
   icon: "static/menubar/icon@2x.png",
