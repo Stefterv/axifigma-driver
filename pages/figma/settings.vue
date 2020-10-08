@@ -1,5 +1,8 @@
 <template>
-  <div>Settings</div>
+  <div>
+    <nuxt-link to="prepare">back</nuxt-link>
+    <h1>Settings</h1>
+  </div>
 </template>
 
 <script>

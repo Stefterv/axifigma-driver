@@ -27,7 +27,9 @@ export default {
     plotting: {
       handler(plotting) {
         if (plotting) this.$router.push("/figma/plotting");
-        else if (this.$route.path == "/figma/plotting")
+        else if (
+          ["/figma/plotting", "/figma/", "/figma"].includes(this.$route.path)
+        )
           this.$router.push("/figma/prepare");
       },
       immediate: true,
