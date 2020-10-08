@@ -1,7 +1,7 @@
 <template>
   <div>
     {{ $saxi.state.connected ? "Connected" : "No connection" }}
-    <button @click="plan" v-if="$saxi.state.plan">Plot!</button>
+    <button @click="plan" :disabled="!$saxi.state.plan">Plot!</button>
     <pre>{{ $saxi.state }}</pre>
   </div>
 </template>

@@ -1,30 +1,9 @@
-import { nuxtPort } from "~/nuxt.config";
+import Vue from "vue";
+import UI from "./components/ui";
 
-let loaded = false;
-
-document.querySelector<HTMLIFrameElement>(
-  "#nuxt"
-)?.src = `http://127.0.0.1:${nuxtPort}`;
-
-window.onmessage = async (msg: any) => {
-  console.log("UI recieved", msg);
-  if (msg.source != window.parent) {
-    window.parent.postMessage(msg.data, "*");
-    loaded = true;
-  } else {
-    let nuxt = window.frames[0];
-
-    nuxt.postMessage(msg.data.pluginMessage, "*");
-  }
-};
-checkPageLoaded();
-async function checkPageLoaded() {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  if (loaded) return;
-
-  openDriverPage();
-}
-
-function openDriverPage() {
-  window.open("https://axifigma.steftervel.de");
-}
+const ui = UI;
+debugger;
+var vm = new Vue({
+  el: "#app",
+  extends: UI,
+});

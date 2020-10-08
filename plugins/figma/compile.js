@@ -16,6 +16,8 @@ export default function() {
     options.watch = true;
     options.output.filename = "[name].js";
     options.output.libraryTarget = "var";
+    options.externals = [];
+    delete options.target;
 
     let plugins = [
       new HtmlWebpackPlugin({
