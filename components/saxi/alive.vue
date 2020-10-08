@@ -5,6 +5,8 @@
 </template>
 
 <script>
+// TODO: Retry websocket connection instead of http one
+
 export default {
   data() {
     return {
