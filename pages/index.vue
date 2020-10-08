@@ -1,25 +1,9 @@
 <template>
-  <div>
-    {{ $saxi.state.connected ? "Connected" : "No connection" }}
-    <button @click="plan" :disabled="!$saxi.state.plan">Plot!</button>
-    <pre>{{ $saxi.state }}</pre>
-  </div>
+  <div>Connected!</div>
 </template>
 
 <script>
 export default {
-  mounted() {
-    // window.parent.postMessage({ pluginMessage: "Hello!" }, "*");
-    // window.onmessage = (msg) => {
-    //   console.log("Nuxt recieved", msg);
-    // };
-  },
-  methods: {
-    plan() {
-      this.$saxi.submitPlan();
-    },
-  },
+  layout: "connected",
 };
 </script>
-
-<style></style>

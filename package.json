@@ -12,17 +12,21 @@
     "local/pack": "electron-builder",
     "local/pack/test": "DIR=$(pwd) && cd / && ./\"$DIR/dist/mac/axidraw-driver.app/Contents/MacOS/axidraw-driver\"",
     "local/publish": "export $(cat .electron-builder/publish.env | xargs) && electron-builder -p onTagOrDraft",
-    "local/publish/win": "for /F %A in (.electron-builder/publish.env) do SET %A && electron-builder -p onTagOrDraft"
+    "local/publish/win": "for /F %A in (.electron-builder/publish.env) do SET %A && electron-builder -p onTagOrDraft",
+    "local/publish/lin": "export $(cat .electron-builder/publish.env | xargs) && electron-builder -lp onTagOrDraft"
   },
   "author": "Stef Tervelde",
+  "homepage": "https://axifigma.steftervel.de",
   "license": "ISC",
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/sitemap": "^2.4.0",
+    "cookie-universal-nuxt": "^2.1.4",
     "flatten-svg": "^0.2.1",
     "menubar": "^9.0.1",
     "nuxt": "^2.14.6",
-    "saxi": "github:stefterv/saxi"
+    "saxi": "github:stefterv/saxi",
+    "vue-cookies": "^1.7.4"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.16.1",

@@ -13,8 +13,8 @@ export default {
     "~/plugins/figma/compile",
     "@nuxtjs/axios",
     "@nuxtjs/sitemap",
+    "cookie-universal-nuxt",
   ],
-  plugins: [{ src: "~/plugins/saxi/driver", ssr: true }],
   axios: {
     proxy: true,
   },
