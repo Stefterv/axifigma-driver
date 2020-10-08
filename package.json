@@ -25,8 +25,7 @@
     "flatten-svg": "^0.2.1",
     "menubar": "^9.0.1",
     "nuxt": "^2.14.6",
-    "saxi": "github:stefterv/saxi",
-    "vue-cookies": "^1.7.4"
+    "saxi": "github:stefterv/saxi"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.16.1",
