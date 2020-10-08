@@ -72,10 +72,7 @@ export default {
   watch: {
     async "state.connected"(connected) {
       if (connected && !this.socket) this.createSocket();
-      if (connected) {
-        this.$cookies.set("seen", true);
-        return;
-      }
+      if (connected) return;
 
       while (this.state.connected) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
