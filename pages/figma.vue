@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button @click="disengage">disengage motors</button>
     <nuxt-child></nuxt-child>
     <details>
       <pre>{{ { ...state, plotting, running } }}</pre>
@@ -11,6 +12,9 @@
 export default {
   layout: "connected",
   inject: ["state"],
+  methods: {
+    disengage() {},
+  },
   computed: {
     plotting() {
       return this.state.plan != null || this.state.motionIdx >= 0;

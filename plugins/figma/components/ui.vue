@@ -1,7 +1,7 @@
 <template>
-  <Alive v-slot="state">
+  <Alive v-slot="{ connected }">
     <iframe
-      v-if="state.connected"
+      v-if="connected"
       :src="`http://127.0.0.1:${nuxtPort}/figma`"
     ></iframe>
     <Offline v-else> </Offline>

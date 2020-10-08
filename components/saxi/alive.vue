@@ -23,7 +23,7 @@ export default {
       this.connected = false;
       async function* connection() {
         yield await self.http();
-        if (process.server) return;
+        if (self.isServer()) return;
 
         yield await self.createSocket();
         yield await self.socketConnected();
@@ -34,6 +34,9 @@ export default {
         if (!step) return;
       }
       this.connected = true;
+    },
+    isServer() {
+      return process.server;
     },
     async http() {
       if (this.connected) return true;
