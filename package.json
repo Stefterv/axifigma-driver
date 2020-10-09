@@ -1,6 +1,6 @@
 {
   "name": "axidraw-driver",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A driver package for working with the AxiDraw through Figma",
   "main": ".nuxt/electron/main.js",
   "scripts": {
@@ -49,6 +49,7 @@
         "filter": [
           ".nuxt/dist/**/*",
           ".nuxt/electron/**/*",
+          "plugins/saxi/config.js",
           "static",
           "package.json",
           "electron.js",
