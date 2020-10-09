@@ -1,3 +1,5 @@
+import registerMessage from "./main/registerMessage";
+
 figma.showUI(__html__);
 
 figma.on("selectionchange", () => {
@@ -12,10 +14,8 @@ async function exportSVG() {
   });
   figma.ui.postMessage({ svg });
 }
+
+import Seen from "./main/Seen";
+registerMessage("sendSeen", Seen.display);
+registerMessage("triggerSeen", Seen.trigger);
 registerMessage("sendSVG", exportSVG);
-function registerMessage(type, cb) {
-  figma.ui.onmessage = (msg) => {
-    if (msg.type !== type) return;
-    cb(msg);
-  };
-}

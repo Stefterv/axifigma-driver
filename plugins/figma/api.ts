@@ -9,8 +9,10 @@ export function registerProperty(
   }
 
   window.addEventListener("message", (msg) => {
-    if (!msg.data[property]) return;
-    callback(msg.data[property]);
+    console.log("Nuxt recieved", msg.data);
+    let { pluginMessage } = msg.data;
+    if (!pluginMessage[property]) return;
+    callback(pluginMessage[property]);
   });
 }
 

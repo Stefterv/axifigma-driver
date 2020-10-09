@@ -35,5 +35,8 @@ export default {
       immediate: true,
     },
   },
+  mounted() {
+    window.parent.postMessage({ pluginMessage: { type: "triggerSeen" } }, "*");
+  },
 };
 </script>
