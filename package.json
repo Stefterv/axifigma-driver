@@ -14,7 +14,7 @@
     "local/publish": "export $(cat .electron-builder/publish.env | xargs) && electron-builder -p onTagOrDraft",
     "local/publish/win": "for /F %A in (.electron-builder/publish.env) do SET %A && electron-builder -p onTagOrDraft",
     "local/publish/lin": "export $(cat .electron-builder/publish.env | xargs) && electron-builder -lp onTagOrDraft",
-    "local/publish/figma": "zip dist/axidriver-figma.zip -r .nuxt/figma/ manifest.json"
+    "local/publish/figma": "zip dist/axidraw-driver-$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')-figma.zip -r .nuxt/figma/ manifest.json"
   },
   "author": "Stef Tervelde",
   "homepage": "https://axifigma.steftervel.de",
