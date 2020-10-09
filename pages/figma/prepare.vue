@@ -12,6 +12,8 @@
 </template>
 
 <script>
+// TODO: continuesly based on settings, svg, and selection, in a different thread estimate the necessary time
+
 import * as Figma from "~/plugins/figma/api";
 import { svgToPlan } from "~/plugins/saxi/helpers/svg";
 
