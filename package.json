@@ -64,8 +64,11 @@
       ]
     },
     "mac": {
-      "category": "public.app-category.utilities"
+      "category": "public.app-category.utilities",
+      "icon": "static/icon.icns"
     },
-    "win": {}
+    "win": {
+      "icon": "static/icon.ico"
+    }
   }
 }
