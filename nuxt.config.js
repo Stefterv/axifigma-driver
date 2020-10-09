@@ -1,9 +1,11 @@
+import Saxi from "./plugins/saxi/config"
 export const nuxtPort = 9000;
-export const saxiPort = 9001;
+export const saxiPort = Saxi.port;
+
 
 export default {
   nuxtPort,
-  saxiPort,
+  saxiPort: Saxi.port,
   server: {
     port: nuxtPort,
   },
@@ -19,12 +21,11 @@ export default {
     proxy: true,
   },
   proxy: {
-    "/saxi/": {
-      target: `http://127.0.0.1:${saxiPort}`,
-      pathRewrite: { "^/saxi/": "" },
-    },
+    ...Saxi.proxy
   },
+  serverMiddleware: [Saxi.middleware],
   typescript: {
     typeCheck: false,
   },
 };
+
