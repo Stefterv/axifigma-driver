@@ -75,9 +75,9 @@ export default {
   },
   async mounted() {
     while (!this.isDestroyed) {
+      await this.connect();
       await new Promise((resolve) => setTimeout(resolve, 2000));
       console.warn("Retrying connection");
-      await this.connect();
     }
   },
   destroyed() {

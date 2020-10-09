@@ -1,5 +1,3 @@
-
-
 <script>
 import Alive from "~/components/saxi/alive";
 import { saxiPort, nuxtPort } from "~/nuxt.config";
@@ -9,14 +7,23 @@ export default {
   extends: Alive,
   methods: {
     async http() {
-      return true;
+      try {
+        let { status } = await axios.get(`http://127.0.0.1:${nuxtPort}/saxi/`);
+        return status == 200;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
     },
     isServer() {
       return false;
     },
-    createSocket() {
+    async createSocket() {
       try {
         this.socket = new WebSocket(`ws://127.0.0.1:${saxiPort}`);
+        this.socket.onerror = (err) => {
+          debugger;
+        };
         return true;
       } catch (err) {
         return false;
