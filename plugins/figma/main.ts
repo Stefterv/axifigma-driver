@@ -5,6 +5,9 @@ figma.showUI(__html__);
 figma.on("selectionchange", () => {
   figma.ui.postMessage({ pageChanged: true });
 });
+figma.on("currentpagechange", () => {
+  figma.ui.postMessage({ pageChanged: true });
+});
 
 async function exportSVG() {
   let svg = await figma.currentPage.exportAsync({

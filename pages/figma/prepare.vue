@@ -3,10 +3,10 @@
     <div>
       <nuxt-link to="settings">Settings</nuxt-link>
     </div>
-    <p>
-      Request current svg from figma, listen to document changes ({{ updates }})
-    </p>
-
+    <div v-if="!state.possiblePlan">Waiting for input</div>
+    <div v-else>
+      Time to plot: {{ (state.possiblePlan.duration() * 1000) | humanize }}
+    </div>
     <button @click="plot" :disabled="!state.possiblePlan">plot!</button>
   </div>
 </template>
@@ -34,11 +34,14 @@ export default {
       this.$axios.post("/saxi/plot", this.state.possiblePlan.serialize());
       this.state.plan = this.state.possiblePlan;
     },
+    requestSVG() {
+      window.parent.postMessage({ pluginMessage: { type: "sendSVG" } }, "*");
+    },
   },
   mounted() {
-    Figma.registerProperty("pageChanged", this.pageUpdate);
+    Figma.registerProperty("pageChanged", this.requestSVG);
     Figma.registerProperty("svg", this.svg);
-    window.parent.postMessage({ pluginMessage: { type: "sendSVG" } }, "*");
+    this.requestSVG();
   },
 };
 </script>

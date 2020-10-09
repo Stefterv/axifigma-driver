@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { Plan } from "~/node_modules/saxi/src/planning";
 export default {
   data() {
     return {
@@ -28,7 +29,11 @@ export default {
     let options = {
       pause: "paused",
       progress: "motionIdx",
-      plan: "plan",
+      plan({ p }) {
+        debugger;
+        let _plan = Plan.deserialize(p.plan);
+        self.state.plan = _plan;
+      },
       dev: "path",
       finished() {
         self.state.motionIdx = -1;
@@ -47,7 +52,7 @@ export default {
         if (msg.c != option) continue;
         let prop = options[option];
         if (prop instanceof Function) {
-          options[option]();
+          options[option](msg);
         } else {
           this.state[prop] = msg.p[prop];
         }

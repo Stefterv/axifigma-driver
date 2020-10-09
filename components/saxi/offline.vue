@@ -4,7 +4,7 @@
       Driver offline
     </h2>
     <button @click="download" v-if="!seen">Download!</button>
-    <button @click="download" v-else>Launch!</button>
+    <button @click="launch" v-else>Launch!</button>
   </div>
 </template>
 
@@ -26,7 +26,6 @@ export default {
       window.open(`${homepage}/launch`);
     },
     setSeen(seen) {
-      debugger;
       this.seen = seen;
     },
   },

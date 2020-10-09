@@ -23,6 +23,7 @@
     "@nuxtjs/sitemap": "^2.4.0",
     "cookie-universal-nuxt": "^2.1.4",
     "flatten-svg": "^0.2.1",
+    "humanize-duration": "^3.24.0",
     "menubar": "^9.0.1",
     "nuxt": "^2.14.6",
     "saxi": "github:stefterv/saxi"
