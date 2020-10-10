@@ -1,6 +1,9 @@
 import registerMessage from "./main/registerMessage";
 
-figma.showUI(__html__);
+figma.showUI(__html__, {
+  width: 300,
+  height: 66,
+});
 
 figma.on("selectionchange", () => {
   figma.ui.postMessage({ pageChanged: true });
@@ -17,8 +20,11 @@ async function exportSVG() {
   });
   figma.ui.postMessage({ svg });
 }
+registerMessage("sendSVG", exportSVG);
 
 import Seen from "./main/Seen";
 registerMessage("sendSeen", Seen.display);
 registerMessage("triggerSeen", Seen.trigger);
-registerMessage("sendSVG", exportSVG);
+
+import Resize from "./main/Resize";
+registerMessage("resize", Resize);

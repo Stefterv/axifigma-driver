@@ -1,5 +1,5 @@
 <template>
-  <Alive v-slot="{ connected }">
+  <Alive v-slot="{ connected }" class="ui">
     <iframe
       v-if="connected"
       :src="`http://127.0.0.1:${nuxtPort}/figma`"
@@ -26,10 +26,14 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 iframe {
   width: 100%;
   height: 100%;
   border: 0;
+}
+.ui {
+  width: 100%;
+  height: 100%;
 }
 </style>

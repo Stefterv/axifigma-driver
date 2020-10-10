@@ -21,9 +21,7 @@ export default {
     async createSocket() {
       try {
         this.socket = new WebSocket(`ws://127.0.0.1:${saxiPort}`);
-        this.socket.onerror = (err) => {
-          debugger;
-        };
+        this.socket.onerror = (err) => {};
         return true;
       } catch (err) {
         return false;

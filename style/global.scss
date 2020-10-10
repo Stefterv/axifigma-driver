@@ -1,0 +1,30 @@
+@import "~/node_modules/figma-plugin-ds/dist/figma-plugin-ds.css";
+
+:root {
+  --margin: 12px;
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 16px;
+  min-width: 300px;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+body {
+  margin: 0;
+}
+hr {
+  border: 0;
+  border-bottom: 1px solid rgba(black, 0.2);
+  margin: 0 var(--margin);
+  min-width: 300px - 24px;
+}
+a {
+  text-decoration: none;
+  color: currentColor;
+}

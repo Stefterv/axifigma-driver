@@ -8,6 +8,7 @@ export default {
   server: {
     port: nuxtPort,
   },
+  css: ["~/style/global.scss"],
   buildModules: ["@nuxt/typescript-build"],
   modules: [
     "~/plugins/electron/compile",

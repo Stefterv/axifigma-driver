@@ -1,16 +1,24 @@
 <template>
-  <div v-if="state.plan">
-    <div>
-      <p>Time to plot: {{ (state.plan.duration() * 1000) | humanize }}</p>
-      <p>Time remaining: {{ (duration * 1000) | humanize }}</p>
+  <div class="plotting" v-if="state.plan">
+    <p>Time to plot</p>
+    <p>{{ (state.plan.duration() * 1000) | humanize }}</p>
+    <strong>Time remaining</strong>
+    <strong>{{ (duration * 1000) | humanize }}</strong>
+    <div class="progress">
       <progress
         :max="state.plan.motions.length"
         :value="state.motionIdx"
       ></progress>
     </div>
-    <button @click="resume" v-if="state.paused">resume</button>
-    <button @click="pause" v-else>pause</button>
-    <button @click="cancel">cancel</button>
+    <button
+      class="button button--primary"
+      @click="state.paused ? resume : paused"
+    >
+      {{ state.paused ? "resume" : "pause" }}
+    </button>
+    <button class="button button--primary-destructive" @click="cancel">
+      cancel
+    </button>
   </div>
 </template>
 
@@ -40,4 +48,22 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.plotting {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: var(--margin);
+  gap: var(--margin);
+  text-align: center;
+}
+.progress {
+  grid-column: 1 / span 2;
+  padding: 0 var(--margin);
+}
+.button {
+  justify-content: center;
+}
+progress {
+  width: 100%;
+}
+</style>

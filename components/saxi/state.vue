@@ -30,7 +30,6 @@ export default {
       pause: "paused",
       progress: "motionIdx",
       plan({ p }) {
-        debugger;
         let _plan = Plan.deserialize(p.plan);
         self.state.plan = _plan;
       },

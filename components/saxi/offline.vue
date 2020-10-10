@@ -1,10 +1,21 @@
 <template>
-  <div>
-    <h2>
-      Driver offline
-    </h2>
-    <button @click="download" v-if="!seen">Download!</button>
-    <button @click="launch" v-else>Launch!</button>
+  <div class="offline">
+    <template v-if="!seen">
+      <div class="status">
+        Axidraw driver not installed
+      </div>
+      <button class="button button--primary" @click="download">
+        Download!
+      </button>
+    </template>
+    <template v-else>
+      <div class="status">
+        Axidraw driver not running
+      </div>
+      <button class="button button--primary" @click="launch">
+        Launch!
+      </button>
+    </template>
   </div>
 </template>
 
@@ -37,4 +48,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.offline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: var(--margin);
+  box-sizing: border-box;
+  .status {
+    padding: 0 var(--margin);
+  }
+}
+</style>

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import UI from "./components/ui";
+import "~/style/global.scss";
 
 let vm = new Vue({
   el: "#app",
