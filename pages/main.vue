@@ -9,7 +9,6 @@
         disengage motors
       </button>
     </div>
-    <hr />
   </div>
 </template>
 

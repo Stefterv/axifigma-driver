@@ -31,6 +31,7 @@ const mb = menubar({
   browserWindow: {
     width: 300,
     height: 66,
+    resizable: false,
   },
 });
 mb.on("ready", () => {
@@ -44,7 +45,6 @@ if (gotTheLock) {
 } else {
   app.quit();
 }
-
 function registerProtocol(protocol) {
   if (!app.isDefaultProtocolClient(protocol)) {
     app.setAsDefaultProtocolClient(protocol);
