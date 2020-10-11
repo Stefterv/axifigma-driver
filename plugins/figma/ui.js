@@ -2,7 +2,7 @@ import Vue from "vue";
 import UI from "./components/ui";
 import "~/style/global.scss";
 
-let vm = new Vue({
+new Vue({
   el: "#app",
   extends: UI,
 });

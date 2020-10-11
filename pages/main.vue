@@ -1,7 +1,15 @@
 <template>
-  <div>
-    <button @click="disengage">disengage motors</button>
-    {{ state.path != null ? "Plotter connnected" : "Plotter not connected" }}
+  <div class="main">
+    <div class="state">
+      {{ state.path != null ? "Plotter connnected" : "Plotter not connected" }}
+      <button
+        class="button button--primary-destructive button--destructive"
+        @click="disengage"
+      >
+        disengage motors
+      </button>
+    </div>
+    <hr />
   </div>
 </template>
 
@@ -13,9 +21,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div {
-  &:hover {
-    color: red;
-  }
+.state {
+  display: grid;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  width: 100vw;
+  height: 100vh;
+  padding: var(--margin);
+}
+.block {
+  justify-content: center;
 }
 </style>

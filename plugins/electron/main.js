@@ -3,6 +3,7 @@ import { Nuxt, loadNuxtConfig } from "nuxt";
 import saxi from "saxi";
 import path from "path";
 import { nuxtPort, saxiPort } from "~/nuxt.config";
+import consola from "consola";
 
 const rootDir = path.join(__dirname, "../../");
 async function startNuxt() {
@@ -11,17 +12,29 @@ async function startNuxt() {
   config.dev = false;
   let nuxt = new Nuxt(config);
   await nuxt.ready();
-  let server = await nuxt.listen(nuxtPort);
-  console.log("Nuxt server running at ", server.port);
+  try {
+    let server = await nuxt.listen(nuxtPort);
+    console.log("Nuxt server running at ", server.port);
+  } catch (err) {
+    if (err.code == "EADDRINUSE") return;
+    console.warn("Nuxt not started", err);
+  }
 }
 startNuxt();
 saxi.server.startServer(saxiPort);
 
-const _NUXT_URL_ = `http://localhost:${nuxtPort}/main`;
+const _NUXT_URL_ = `http://127.0.0.1:${nuxtPort}/main`;
 const mb = menubar({
   index: _NUXT_URL_,
   icon: `${rootDir}/static/menubar/icon@2x.png`,
   showDockIcon: false,
+  browserWindow: {
+    width: 300,
+    height: 66,
+  },
+});
+mb.on("ready", () => {
+  consola.info("Electron Running!");
 });
 const { app } = mb;
 
@@ -31,9 +44,6 @@ if (gotTheLock) {
 } else {
   app.quit();
 }
-mb.on("ready", () => {
-  console.log("Electron Running!");
-});
 
 function registerProtocol(protocol) {
   if (!app.isDefaultProtocolClient(protocol)) {
