@@ -2,8 +2,10 @@ import cloneDeep from "lodash/cloneDeep";
 import webpack from "webpack";
 import HtmlWebpackInlineSourcePlugin from "html-webpack-inline-source-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import WebpackBar from "webpackbar";
+import NodeOutputFileSystem from "webpack/lib/node/NodeOutputFileSystem";
 
-export default function() {
+export default function(opt) {
   let nuxt = this.nuxt;
   this.nuxt.hook("webpack:config", async (builder) => {
     let buildDir = nuxt.options.buildDir + "/figma/";
@@ -19,6 +21,9 @@ export default function() {
     options.externals = [];
     delete options.target;
 
+    options.plugins = options.plugins.filter(
+      (plugin) => !(plugin instanceof WebpackBar)
+    );
     let plugins = [
       new HtmlWebpackPlugin({
         template: nuxt.resolver.resolvePath("~/plugins/figma/ui.html"),
@@ -27,15 +32,19 @@ export default function() {
         chunks: ["ui"],
       }),
       new HtmlWebpackInlineSourcePlugin(),
+      new WebpackBar({
+        name: "figma",
+        color: "red",
+      }),
     ];
     options.plugins.push(...plugins);
 
     options.output.path = buildDir;
-    let runner = webpack(options);
-    if (!this.nuxt.options.dev) {
-      runner.run(() => {});
-      return;
-    }
-    runner.watch(nuxt.options.watch, (err) => {});
+    builder.push(options);
+    if (!this.nuxt.options.dev) return;
+    this.nuxt.hook("build:compile", async ({ name, compiler }) => {
+      if (name != "figma") return;
+      compiler.outputFileSystem = new NodeOutputFileSystem();
+    });
   });
 }
