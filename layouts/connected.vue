@@ -40,6 +40,7 @@ export default {
   },
   mounted() {
     this.ro = new ResizeObserver(this.updateSize).observe(this.$el);
+    window.parent.postMessage({ pluginMessage: { type: "triggerSeen" } }, "*");
   },
   destroyed() {
     delete this.ro;

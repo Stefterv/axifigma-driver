@@ -1,15 +1,17 @@
 <template>
-  <div class="plotting" v-if="state.plan">
-    <p>Time to plot</p>
-    <p>{{ (state.plan.duration() * 1000) | humanize }}</p>
-    <strong>Time remaining</strong>
-    <strong>{{ (duration * 1000) | humanize }}</strong>
-    <div class="progress">
-      <progress
-        :max="state.plan.motions.length"
-        :value="state.motionIdx"
-      ></progress>
-    </div>
+  <div class="plotting">
+    <template v-if="state.plan">
+      <p>Time to plot</p>
+      <p>{{ (state.plan.duration() * 1000) | humanize }}</p>
+      <strong>Time remaining </strong>
+      <strong>{{ ((duration - motion.offset) * 1000) | humanize }}</strong>
+      <div class="progress">
+        <progress
+          :max="state.plan.motions.length"
+          :value="state.motionIdx"
+        ></progress>
+      </div>
+    </template>
     <button
       class="button button--primary"
       @click="state.paused ? resume : paused"
@@ -25,6 +27,16 @@
 <script>
 export default {
   inject: ["state"],
+
+  data() {
+    return {
+      motion: {
+        lastChange: null,
+        offset: 0,
+        interval: null,
+      },
+    };
+  },
   methods: {
     resume() {
       this.$axios.post("/saxi/resume");
@@ -35,6 +47,10 @@ export default {
     cancel() {
       this.$axios.post("/saxi/cancel");
     },
+    updateTimer() {
+      this.motion.offset =
+        (new Date().getTime() - this.motion.lastChange.getTime()) / 1000;
+    },
   },
   computed: {
     duration() {
@@ -44,6 +60,20 @@ export default {
 
       return motions.map((m) => m.duration()).reduce((a, b) => a + b, 0);
     },
+  },
+  watch: {
+    "state.motionIdx": {
+      immediate: true,
+      handler() {
+        this.motion.lastChange = new Date();
+      },
+    },
+  },
+  mounted() {
+    this.motion.interval = setInterval(this.updateTimer, 1000);
+  },
+  destroyed() {
+    clearInterval(this.motion.interval);
   },
 };
 </script>

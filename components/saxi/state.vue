@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import { Plan } from "~/node_modules/saxi/src/planning";
 export default {
   data() {
     return {
@@ -18,6 +17,7 @@ export default {
         plan: null,
         path: null,
         possiblePlan: null,
+        options: null,
       },
       socket: null,
     };

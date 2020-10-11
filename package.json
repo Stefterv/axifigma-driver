@@ -23,6 +23,7 @@
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/sitemap": "^2.4.0",
     "cookie-universal-nuxt": "^2.1.4",
+    "debounce": "^1.2.0",
     "figma-plugin-ds": "^0.1.8",
     "flatten-svg": "^0.2.1",
     "humanize-duration": "^3.24.0",

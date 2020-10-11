@@ -23,11 +23,15 @@
 </template>
 
 <script>
+import * as Figma from "~/plugins/figma/api";
+import { svgToPlan } from "~/plugins/saxi/helpers/svg";
 export default {
   layout: "connected",
   inject: ["state"],
-  methods: {
-    disengage() {},
+  data() {
+    return {
+      lastSvg: null,
+    };
   },
   computed: {
     plotting() {
@@ -42,6 +46,18 @@ export default {
       return "idle";
     },
   },
+  methods: {
+    disengage() {},
+    svg(svg) {
+      this.lastSvg = svg;
+      let opt = this.state.options ? { ...this.state.options } : null;
+      let plan = svgToPlan(svg, opt);
+      this.state.possiblePlan = plan;
+    },
+    requestSVG() {
+      window.parent.postMessage({ pluginMessage: { type: "sendSVG" } }, "*");
+    },
+  },
   watch: {
     plotting: {
       handler(plotting) {
@@ -53,9 +69,20 @@ export default {
       },
       immediate: true,
     },
+    "state.options": {
+      deep: true,
+      handler() {
+        console.log("Options changed");
+        if (this.lastSvg == null) return;
+
+        this.svg(this.lastSvg);
+      },
+    },
   },
   mounted() {
-    window.parent.postMessage({ pluginMessage: { type: "triggerSeen" } }, "*");
+    Figma.registerProperty("pageChanged", this.requestSVG);
+    Figma.registerProperty("svg", this.svg);
+    this.requestSVG();
   },
 };
 </script>
