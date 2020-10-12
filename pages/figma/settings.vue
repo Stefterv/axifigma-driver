@@ -11,6 +11,15 @@
         </template>
       </div>
     </section>
+    <section>
+      <a href="#" class="feedback" @click.prevent="feedback">Feedback/bugs</a>
+      <a v-if="advanced" href="#" @click.prevent="advanced = false">
+        <button class="button button--secondary">back</button>
+      </a>
+      <nuxt-link v-else to="prepare">
+        <button class="button button--secondary">back</button>
+      </nuxt-link>
+    </section>
     <!-- <section>
       <label><strong>Preset</strong></label>
 
@@ -257,15 +266,6 @@
         >
       </details>
     </template>
-    <section>
-      <a v-if="advanced" href="#" @click.prevent="advanced = false">
-        <button class="button button--secondary">back</button>
-      </a>
-      <nuxt-link v-else to="prepare">
-        <button class="button button--secondary">back</button>
-      </nuxt-link>
-      <a href="#" class="feedback" @click.prevent="feedback">Feedback/bugs</a>
-    </section>
   </div>
 </template>
 
