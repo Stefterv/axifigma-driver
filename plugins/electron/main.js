@@ -30,7 +30,7 @@ const mb = menubar({
   showDockIcon: false,
   browserWindow: {
     width: 300,
-    height: 66,
+    height: 56,
     resizable: false,
   },
 });
