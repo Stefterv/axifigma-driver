@@ -11,7 +11,7 @@
         </template>
       </div>
     </section>
-    <section>
+    <!-- <section>
       <label><strong>Preset</strong></label>
 
       <FigmaSelect :options="presets" v-model="currentPreset" property="name">
@@ -28,7 +28,7 @@
           save
         </button>
       </div>
-    </section>
+    </section> -->
     <template v-if="!advanced">
       <section>
         <h4>Optimization</h4>
@@ -64,7 +64,11 @@
       <section>
         <h4>Paper Size</h4>
         <div class="label">Preset</div>
-        <FigmaSelect :options="presets" v-model="currentPreset" property="name">
+        <FigmaSelect
+          :options="paperPresets"
+          v-model="currentPaperPreset"
+          property="name"
+        >
         </FigmaSelect>
         <div class="label">Width</div>
         <div suffix="mm">
@@ -128,7 +132,15 @@
       </section>
       <section>
         <h4>Pen</h4>
+        <button class="button button--tertiary pen" @click="movePen(true)">
+          Up
+        </button>
+
+        <button class="button button--tertiary pen" @click="movePen(false)">
+          Down
+        </button>
         <div class="label">Pen up height</div>
+
         <div suffix="%">
           <input
             type="number"
@@ -258,13 +270,14 @@
 </template>
 
 <script>
-import { defaultPlanOptions } from "~/node_modules/saxi/src/planning";
+import { defaultPlanOptions, Device } from "~/node_modules/saxi/src/planning";
+import { PaperSize } from "~/node_modules/saxi/src/paper-size";
 import { selectMenu, disclosure } from "figma-plugin-ds";
 import FigmaSelect from "~/components/select";
 import debounce from "debounce";
 
 export default {
-  inject: ["state"],
+  inject: ["state", "saxi"],
   data() {
     return {
       advanced: false,
@@ -281,6 +294,10 @@ export default {
           options: { ...defaultPlanOptions, penUpHeight: 10 },
         },
       ],
+      paperPresets: Object.entries(PaperSize.standard).map(([name, obj]) => ({
+        name,
+        ...obj,
+      })),
     };
   },
   computed: {
@@ -301,10 +318,44 @@ export default {
         Object.assign(this.options, currentPreset.options);
       },
     },
+    currentPaperPreset: {
+      get() {
+        let props = ["size.x", "size.y"];
+        let size = this.options.paperSize;
+        for (let preset of this.paperPresets) {
+          let diff = false;
+          for (let prop of props) {
+            if (getKey(prop, preset) === getKey(prop, size)) continue;
+            diff = true;
+            break;
+          }
+          if (diff) continue;
+          return preset.name;
+        }
+      },
+      set(name) {
+        let currentPreset = null;
+        for (let preset of this.paperPresets) {
+          if (preset.name != name) continue;
+          currentPreset = preset;
+        }
+        Object.assign(
+          this.options.paperSize,
+          JSON.parse(JSON.stringify(currentPreset))
+        );
+      },
+    },
   },
   methods: {
     feedback() {
       window.open("https://github.com/Stefterv/axifigma-driver/issues?q=");
+    },
+    movePen(state) {
+      const rate = 1000;
+      const height = Device.Axidraw.penPctToPos(
+        state ? this.options.penUpHeight : this.options.penDownHeight
+      );
+      this.saxi.send({ c: "setPenHeight", p: { height, rate } });
     },
   },
   watch: {
@@ -312,6 +363,7 @@ export default {
       deep: true,
       handler: debounce(function(options) {
         console.log("Updating options");
+        this.$cookies.set("settings", btoa(JSON.stringify(options)));
         if (this.state.options) {
           Object.assign(this.state.options, options);
         } else {
@@ -324,6 +376,11 @@ export default {
     FigmaSelect,
   },
 };
+function getKey(key, obj) {
+  return key.split(".").reduce(function(a, b) {
+    return a && a[b];
+  }, obj);
+}
 </script>
 
 <style lang="scss" scoped>
@@ -356,5 +413,8 @@ h4 {
 .feedback {
   opacity: 0.2;
   text-decoration: underline;
+}
+.button.pen {
+  justify-content: center;
 }
 </style>

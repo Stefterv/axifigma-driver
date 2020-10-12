@@ -34,8 +34,12 @@ export function svgStringToPaths(svg: Uint8Array): Vec2[][] {
   try {
     div.innerHTML = svgString;
     el = div.children[0] as SVGElement;
-  } catch {
-    throw "Not a valid svg";
+    let children = el.querySelectorAll("rect:not([id]");
+    for (let child of children) {
+      child.parentNode.removeChild(child);
+    }
+  } catch (err) {
+    throw "Not a valid svg" + err;
   }
   return svgElementToPaths(el);
 }

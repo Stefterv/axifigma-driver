@@ -9,6 +9,13 @@
 <script>
 export default {
   data() {
+    let options = this.$cookies.get("settings");
+    try {
+      if (process.client && options) options = JSON.parse(atob(options));
+    } catch (err) {
+      debugger;
+    }
+    // debugger;
     return {
       state: {
         connected: false,
@@ -17,7 +24,7 @@ export default {
         plan: null,
         path: null,
         possiblePlan: null,
-        options: null,
+        options,
       },
       socket: null,
     };

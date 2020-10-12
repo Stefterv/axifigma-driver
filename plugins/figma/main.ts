@@ -17,6 +17,7 @@ async function exportSVG() {
     format: "SVG",
     svgOutlineText: true,
     svgSimplifyStroke: true,
+    svgIdAttribute: true,
   });
   figma.ui.postMessage({ svg });
 }
