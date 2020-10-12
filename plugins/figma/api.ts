@@ -8,10 +8,10 @@ export function registerProperty(
     console.warn("Property already registered");
   }
 
-  window.addEventListener("message", (msg) => {
+  window.addEventListener("message", (msg: MessageEvent) => {
     console.log("Nuxt recieved", msg.data);
     let { pluginMessage } = msg.data;
-    if (!pluginMessage[property]) return;
+    if (!pluginMessage || !pluginMessage[property]) return;
     callback(pluginMessage[property]);
   });
 }

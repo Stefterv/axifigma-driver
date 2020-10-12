@@ -4,12 +4,7 @@
       <div class="description" :class="{ [status]: true }">
         {{ status }}
       </div>
-      <button
-        class="button button--primary-destructive button--destructive"
-        @click="disengage"
-      >
-        Disengage Motors
-      </button>
+      <Limp> </Limp>
     </div>
     <hr />
     <nuxt-child></nuxt-child>
@@ -25,6 +20,8 @@
 <script>
 import * as Figma from "~/plugins/figma/api";
 import { svgToPlan } from "~/plugins/saxi/helpers/svg";
+import Limp from "~/components/saxi/limp";
+
 export default {
   layout: "connected",
   inject: ["state"],
@@ -78,6 +75,9 @@ export default {
         this.svg(this.lastSvg);
       },
     },
+  },
+  components: {
+    Limp,
   },
   mounted() {
     Figma.registerProperty("pageChanged", this.requestSVG);

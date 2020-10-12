@@ -62,6 +62,19 @@ export default {
     );
     this.state.connected = true;
   },
+  methods: {
+    send(msg) {
+      if (!this.state.connected) return;
+      this.socket.send(JSON.stringify(msg));
+    },
+  },
+  provide() {
+    return {
+      saxi: {
+        send: this.send,
+      },
+    };
+  },
   components: {
     Provide: {
       provide() {

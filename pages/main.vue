@@ -2,20 +2,20 @@
   <div class="main">
     <div class="state">
       {{ state.path != null ? "Plotter connnected" : "Plotter not connected" }}
-      <button
-        class="button button--primary-destructive button--destructive"
-        @click="disengage"
-      >
-        disengage motors
-      </button>
+      <Limp> </Limp>
     </div>
   </div>
 </template>
 
 <script>
+import Limp from "~/components/saxi/limp";
+
 export default {
   inject: ["state"],
   layout: "connected",
+  components: {
+    Limp,
+  },
 };
 </script>
 
@@ -27,7 +27,6 @@ export default {
   align-items: center;
   grid-template-columns: 1fr 1fr;
   width: 100vw;
-  height: 100vh;
   padding: var(--margin);
 }
 .block {
