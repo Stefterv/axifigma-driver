@@ -1,6 +1,6 @@
 {
   "name": "axidraw-driver",
-  "version": "0.1.3",
+  "version": "0.8.0",
   "description": "A driver package for working with the AxiDraw through Figma",
   "main": ".nuxt/electron/main.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "local/build": "nuxt build",
     "local/build/test": "electron .",
     "local/pack": "electron-builder",
-    "local/pack/test": "DIR=$(pwd) && cd / && ./\"$DIR/dist/mac/axidraw-driver.app/Contents/MacOS/axidraw-driver\"",
+    "local/pack/test": "DIR=$(pwd) && cd / && ./\"$DIR/dist/mac/Axidraw Figma Driver.app/Contents/MacOS/Axidraw Figma Driver\"",
     "local/publish": "export $(cat .electron-builder/publish.env | xargs) && electron-builder -p onTagOrDraft",
     "local/publish/win": "for /F %A in (.electron-builder/publish.env) do SET %A && electron-builder -p onTagOrDraft",
     "local/publish/lin": "export $(cat .electron-builder/publish.env | xargs) && electron-builder -lp onTagOrDraft",
@@ -44,6 +44,7 @@
   },
   "build": {
     "appId": "nl.steftervelde.axifigma",
+    "productName": "Axidraw Figma Driver",
     "files": [
       {
         "from": ".",
