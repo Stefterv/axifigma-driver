@@ -4,6 +4,7 @@ import saxi from "saxi";
 import path from "path";
 import { nuxtPort, saxiPort } from "~/nuxt.config";
 import consola from "consola";
+import { autoUpdater } from "electron-updater";
 
 const rootDir = path.join(__dirname, "../../");
 async function startNuxt() {
@@ -36,6 +37,7 @@ const mb = menubar({
 });
 mb.on("ready", () => {
   consola.info("Electron Running!");
+  autoUpdater.checkForUpdatesAndNotify();
 });
 const { app } = mb;
 
