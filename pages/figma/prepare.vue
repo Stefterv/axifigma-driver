@@ -17,6 +17,10 @@
         <div class="canvas">
           {{ options.paperSize.size.x || "-" }}mm x
           {{ options.paperSize.size.y || "-" }}mm
+          <!-- <div>
+            {{ Math.round((options.paperSize.size.x / 25.4) * 96) || "-" }}px x
+            {{ Math.round((options.paperSize.size.y / 25.4) * 96) || "-" }}px
+          </div> -->
         </div>
       </div>
       <div class="pen">
