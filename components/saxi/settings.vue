@@ -9,8 +9,6 @@ import debounce from "debounce";
 import { defaultPlanOptions } from "~/node_modules/saxi/src/planning";
 import { PaperSize } from "~/node_modules/saxi/src/paper-size";
 
-let prpsize = PaperSize;
-debugger;
 export default {
   inject: ["state"],
   data() {
@@ -22,7 +20,10 @@ export default {
     }
     return {
       advanced: false,
-      options: options || { ...defaultPlanOptions },
+      options: options || {
+        ...defaultPlanOptions,
+        paperSize: PaperSize.standard.A6.landscape,
+      },
       presets: [
         {
           name: "Default",
