@@ -3,7 +3,9 @@
     <Alive v-slot="{ connected }">
       <template v-if="connected">
         <State>
-          <nuxt-child></nuxt-child>
+          <Settings>
+            <nuxt-child></nuxt-child>
+          </Settings>
         </State>
       </template>
       <Offline v-else> </Offline>
@@ -14,6 +16,7 @@
 <script>
 import Alive from "~/components/saxi/alive";
 import State from "~/components/saxi/state";
+import Settings from "~/components/saxi/settings";
 import Offline from "~/components/saxi/offline";
 
 export default {
@@ -21,6 +24,7 @@ export default {
     Alive,
     Offline,
     State,
+    Settings,
   },
   data() {
     return {

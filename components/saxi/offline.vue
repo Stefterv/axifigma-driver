@@ -2,7 +2,7 @@
   <div class="offline">
     <template v-if="!seen">
       <div class="status">
-        Axidraw driver not installed
+        AxiDraw driver not installed
       </div>
       <button class="button button--primary" @click="download">
         Download!
@@ -10,7 +10,7 @@
     </template>
     <template v-else>
       <div class="status">
-        Axidraw driver not running
+        AxiDraw driver not running
       </div>
       <button class="button button--primary" @click="launch">
         Launch!

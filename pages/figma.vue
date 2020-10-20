@@ -1,5 +1,6 @@
 <template>
   <div class="figma">
+    <Provide> </Provide>
     <div class="status">
       <div class="description" :class="{ [status]: true }">
         {{ status }}
@@ -24,7 +25,7 @@ import Limp from "~/components/saxi/limp";
 
 export default {
   layout: "connected",
-  inject: ["state"],
+  inject: ["state", "options"],
   data() {
     return {
       lastSvg: null,
@@ -47,7 +48,7 @@ export default {
     disengage() {},
     svg(svg) {
       this.lastSvg = svg;
-      let opt = this.state.options ? { ...this.state.options } : null;
+      let opt = this.options ? { ...this.options } : null;
       let plan = svgToPlan(svg, opt);
       this.state.possiblePlan = plan;
     },
@@ -66,7 +67,7 @@ export default {
       },
       immediate: true,
     },
-    "state.options": {
+    options: {
       deep: true,
       handler() {
         console.log("Options changed");

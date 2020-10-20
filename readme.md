@@ -1,4 +1,4 @@
-# Axifigma - An Axidraw and Figma mashup
+# AxiFigma - An AxiDraw and Figma mashup
 
 <img src="static/icon.png" width="256">
 

@@ -10,6 +10,7 @@ export default {
   },
   css: ["~/style/global.scss"],
   buildModules: ["@nuxt/typescript-build"],
+  components: true,
   modules: [
     "~/plugins/electron/compile",
     "~/plugins/figma/compile",

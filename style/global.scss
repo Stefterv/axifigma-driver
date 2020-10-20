@@ -33,3 +33,18 @@ a {
 .button {
   text-transform: capitalize;
 }
+[suffix] {
+  position: relative;
+  &:after {
+    content: attr(suffix);
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 2em;
+  }
+}
+[suffix-link]:after {
+  text-decoration: underline;
+}

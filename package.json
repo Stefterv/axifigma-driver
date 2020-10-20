@@ -45,7 +45,7 @@
   },
   "build": {
     "appId": "nl.steftervelde.axifigma",
-    "productName": "Axidraw Figma Driver",
+    "productName": "AxiDraw Figma Driver",
     "files": [
       {
         "from": ".",
