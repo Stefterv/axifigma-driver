@@ -41,6 +41,10 @@ export default {
         self.state.motionIdx = -1;
         self.state.plan = null;
       },
+      limped() {
+        self.state.motionIdx = -1;
+        self.state.plan = null;
+      },
     };
     this.socket.addEventListener("message", (e) => {
       if (typeof e.data !== "string") return;
