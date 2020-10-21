@@ -24,7 +24,13 @@
         </div>
       </div>
       <div class="pen">
-        <label>Pen</label>
+        <label>
+          Pen
+          <div
+            class="icon icon--up-down"
+            @click="testPenHeight(!penState)"
+          ></div>
+        </label>
         <div suffix="Up" suffix-link>
           <input
             type="number"
@@ -81,6 +87,11 @@
 import { Device } from "~/node_modules/saxi/src/planning";
 export default {
   inject: ["state", "options", "saxi"],
+  data() {
+    return {
+      penState: false,
+    };
+  },
   methods: {
     plot() {
       this.$axios.post("/saxi/plot", this.state.possiblePlan.serialize());
@@ -92,6 +103,7 @@ export default {
         state ? this.options.penUpHeight : this.options.penDownHeight
       );
       this.saxi.send({ c: "setPenHeight", p: { height, rate } });
+      this.penState = state;
     },
   },
 };
@@ -132,5 +144,11 @@ export default {
 }
 label {
   opacity: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pen-toggle {
+  display: inline-block;
 }
 </style>
