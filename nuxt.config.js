@@ -10,7 +10,6 @@ export default {
   },
   css: ["~/style/global.scss"],
   buildModules: ["@nuxt/typescript-build"],
-  components: true,
   modules: [
     "~/plugins/electron/compile",
     "~/plugins/figma/compile",
@@ -22,7 +21,7 @@ export default {
   axios: {
     proxy: true,
   },
-  plugins: ["~/plugins/filters"],
+  plugins: ["~/plugins/filters", "~/plugins/globals"],
   proxy: {
     ...Saxi.proxy,
   },
