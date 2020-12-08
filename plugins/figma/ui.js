@@ -8,7 +8,7 @@ new Vue({
 });
 window.onmessage = async (msg) => {
   console.log("UI recieved", msg.data, msg);
-  if (msg.source != window.parent) {
+  if (msg.origin != "https://www.figma.com") {
     window.parent.postMessage(msg.data, "*");
   } else {
     if (!window.frames.length) return;

@@ -15,9 +15,7 @@ export default {
     let options = this.$cookies.get("settings");
     try {
       if (process.client && options) options = JSON.parse(atob(options));
-    } catch (err) {
-      debugger;
-    }
+    } catch (err) {}
     return {
       advanced: false,
       options: options || {
