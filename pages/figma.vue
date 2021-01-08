@@ -9,6 +9,7 @@
     </div>
     <hr />
     <nuxt-child></nuxt-child>
+    <hr />
     <Preview> </Preview>
   </div>
 </template>
