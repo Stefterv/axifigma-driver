@@ -20,6 +20,7 @@ export default {
       advanced: false,
       options: options || {
         ...defaultPlanOptions,
+        fitPage: false,
         paperSize: PaperSize.standard.A6.landscape,
       },
       presets: [

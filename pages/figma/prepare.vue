@@ -14,13 +14,16 @@
       </div>
       <div>
         <label>Canvas Size</label>
-        <div class="canvas">
+        <div
+          class="canvas"
+          :title="
+            `Equivalent to ${current.x || '-'}px x ${current.y ||
+              '-'}px Artboard Size\n(Click to insert)`
+          "
+          @click="insertCurrent"
+        >
           {{ options.paperSize.size.x || "-" }}mm x
           {{ options.paperSize.size.y || "-" }}mm
-          <!-- <div>
-            {{ Math.round((options.paperSize.size.x / 25.4) * 96) || "-" }}px x
-            {{ Math.round((options.paperSize.size.y / 25.4) * 96) || "-" }}px
-          </div> -->
         </div>
       </div>
       <div class="pen">
@@ -73,24 +76,53 @@
           Settings
         </button>
       </nuxt-link>
-      <a v-else href="#" @click.prevent="$router.back()">
+      <nuxt-link to="/figma/prepare" v-else>
         <button class="button button--secondary">
-          Back
+          Close
         </button>
-      </a>
+      </nuxt-link>
     </div>
-    <nuxt-child></nuxt-child>
+    <template v-if="$route.path !== '/figma/prepare'">
+      <hr />
+      <nav>
+        <nuxt-link to="/figma/prepare/settings">
+          <li>
+            Document
+          </li>
+        </nuxt-link>
+        <nuxt-link to="/figma/prepare/advanced">
+          <li>
+            Timing
+          </li>
+        </nuxt-link>
+        <nuxt-link to="/figma/prepare/optimization">
+          <li>
+            Optimization
+          </li>
+        </nuxt-link>
+      </nav>
+      <hr />
+      <nuxt-child></nuxt-child>
+    </template>
   </div>
 </template>
 
 <script>
 import { Device } from "~/node_modules/saxi/src/planning";
 export default {
-  inject: ["state", "options", "saxi"],
+  inject: ["state", "options", "saxi", "paperPresets"],
   data() {
     return {
       penState: false,
     };
+  },
+  computed: {
+    current() {
+      return {
+        x: Math.round((this.options.paperSize.size.x / 25.4) * 96),
+        y: Math.round((this.options.paperSize.size.y / 25.4) * 96),
+      };
+    },
   },
   methods: {
     plot() {
@@ -105,13 +137,50 @@ export default {
       this.saxi.send({ c: "setPenHeight", p: { height, rate } });
       this.penState = state;
     },
+    insertCurrent() {
+      let size = this.current;
+      window.parent.postMessage(
+        {
+          pluginMessage: {
+            type: "insertCurrent",
+            size,
+            presetName: this.currentPaperPreset(),
+          },
+        },
+        "*"
+      );
+    },
+    currentPaperPreset() {
+      // TODO Move to reusable place
+      let props = ["size.x", "size.y"];
+      let size = this.options.paperSize;
+      for (let preset of this.paperPresets) {
+        let diff = false;
+        for (let prop of props) {
+          if (getKey(prop, preset) === getKey(prop, size)) continue;
+          diff = true;
+          break;
+        }
+        if (diff) continue;
+        return preset.name;
+      }
+    },
   },
 };
+function getKey(key, obj) {
+  return key.split(".").reduce(function(a, b) {
+    return a && a[b];
+  }, obj);
+}
 </script>
 
 <style scoped lang="scss">
+.prepare {
+  min-width: 100vw;
+}
 .plot {
   display: grid;
+
   grid-template-rows: 1fr 1fr;
   grid-auto-flow: column;
   margin: var(--margin) calc(var(--margin) * 2);
@@ -142,11 +211,27 @@ export default {
     margin-top: 0;
   }
 }
+nav {
+  display: flex;
+  list-style: none;
+  padding: var(--margin);
+  gap: calc(var(--margin) * 2);
+  font-weight: bold;
+  a {
+    opacity: 0.5;
+  }
+  .nuxt-link-exact-active {
+    opacity: 1;
+  }
+}
 label {
   opacity: 0.5;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.canvas {
+  text-decoration: underline;
 }
 .pen-toggle {
   display: inline-block;

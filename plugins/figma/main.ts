@@ -29,3 +29,13 @@ registerMessage("triggerSeen", Seen.trigger);
 
 import Resize from "./main/Resize";
 registerMessage("resize", Resize);
+
+function insertCurrent({ size, presetName }) {
+  let frame = figma.createFrame();
+  frame.resize(size.x, size.y);
+  frame.name = `AxiDraw - ${presetName}`;
+  figma.currentPage.appendChild(frame);
+  // debugger;
+  // console.log(size);
+}
+registerMessage("insertCurrent", insertCurrent);

@@ -64,7 +64,12 @@
           type="checkbox"
           class="checkbox__box"
         />
-        <label for="fitToPage" class="checkbox__label">Fit to page</label>
+        <label
+          for="fitToPage"
+          class="checkbox__label"
+          title="Fit the artboart content to the selected paper size"
+          >Fit Content</label
+        >
       </div>
       <div class="checkbox">
         <input
@@ -87,42 +92,8 @@
         >
       </div>
     </section>
-    <section>
-      <h4>Optimization</h4>
-
-      <div class="label">Minimum Path Length</div>
-      <input
-        type="number"
-        class="input__field"
-        v-model.number="options.minimumPathLength"
-        placeholder=""
-        step="0.1"
-        min="0"
-      />
-      <div class="label">Point Join Radius</div>
-      <input
-        type="number"
-        class="input__field"
-        v-model.number="options.pointJoinRadius"
-        placeholder=""
-        step="0.1"
-        min="0"
-      />
-      <div class="label">Path Join Radius</div>
-      <input
-        type="number"
-        class="input__field"
-        v-model.number="options.pathJoinRadius"
-        placeholder=""
-        step="0.1"
-        min="0"
-      />
-    </section>
 
     <section>
-      <nuxt-link to="advanced">
-        <button class="button button--secondary">Advanced</button>
-      </nuxt-link>
       <a href="#" class="feedback" @click.prevent="feedback">Feedback/bugs</a>
     </section>
   </div>
@@ -200,6 +171,7 @@ function getKey(key, obj) {
 <style lang="scss" scoped>
 .settings {
   margin: var(--margin);
+  margin-top: 0;
 }
 section {
   display: grid;

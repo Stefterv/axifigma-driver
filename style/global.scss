@@ -23,7 +23,8 @@ body {
 hr {
   border: 0;
   border-bottom: 1px solid rgba(black, 0.2);
-  margin: 0 var(--margin);
+  // margin: 0 var(--margin);
+  margin: 0;
   min-width: 300px - 24px;
 }
 a {
