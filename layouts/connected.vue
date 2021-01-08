@@ -1,5 +1,16 @@
 <template>
   <div class="layout">
+    <div class="errors">
+      <div
+        class="error"
+        v-for="(error, index) in errors"
+        :key="index"
+        @click="errors.splice(index, 1)"
+      >
+        <div class="icon icon--warning icon--white"></div>
+        {{ error }}
+      </div>
+    </div>
     <Alive v-slot="{ connected }">
       <template v-if="connected">
         <State>
@@ -29,6 +40,7 @@ export default {
   data() {
     return {
       ro: null,
+      errors: [],
     };
   },
   methods: {
@@ -49,6 +61,10 @@ export default {
   destroyed() {
     delete this.ro;
   },
+  errorCaptured(err, vm, info) {
+    this.errors.push(err);
+    return false;
+  },
 };
 </script>
 
@@ -61,5 +77,28 @@ body {
 <style lang="scss" scoped>
 .layout {
   display: flex;
+}
+.errors {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 1;
+  .error {
+    color: white;
+    padding: var(--margin);
+    display: flex;
+    gap: var(--margin);
+    background: #f24822;
+    animation: movein 0.2s;
+  }
+}
+@keyframes movein {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 </style>
