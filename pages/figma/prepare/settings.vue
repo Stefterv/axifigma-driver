@@ -87,9 +87,18 @@
           type="checkbox"
           class="checkbox__box"
         />
-        <label for="cropToMargins" class="checkbox__label"
-          >Crop to Margins</label
-        >
+        <label for="cropToMargins" class="checkbox__label">
+          Crop to Margins
+        </label>
+      </div>
+      <div>
+        <div
+          class="icon icon--warning"
+          v-if="!options.cropToMargins"
+          :title="
+            'Turning off crop to margins might cause the axidraw to draw outside it\'s range.\nTip: turn on crop to margins but set the margin to 0'
+          "
+        ></div>
       </div>
     </section>
 
