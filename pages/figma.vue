@@ -46,11 +46,13 @@ export default {
   },
   methods: {
     disengage() {},
-    svg(svg) {
-      this.lastSvg = svg;
+    svg(svgData) {
+      this.lastSvg = svgData;
       let opt = this.options ? { ...this.options } : null;
-      let plan = svgToPlan(svg, opt);
+      let { plan, svg } = svgToPlan(svgData, opt);
       this.state.possiblePlan = plan;
+      debugger;
+      this.state.svg = svg;
     },
     requestSVG() {
       window.parent.postMessage({ pluginMessage: { type: "sendSVG" } }, "*");

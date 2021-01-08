@@ -6,8 +6,8 @@ import {
 } from "~/node_modules/saxi/src/planning";
 import { Vec2 } from "~/node_modules/saxi/src/vec";
 
-export function svgToPlan(svg: Uint8Array, profile: PlanOptions) {
-  let paths = svgStringToPaths(svg);
+export function svgToPlan(svgData: Uint8Array, profile: PlanOptions) {
+  let { svg, paths } = svgStringToPaths(svgData);
 
   const strokes = new Set();
   const groups = new Set();
@@ -23,11 +23,11 @@ export function svgToPlan(svg: Uint8Array, profile: PlanOptions) {
   profile.selectedStrokeLayers = new Set(strokeLayers) as Set<string>;
   profile.selectedGroupLayers = new Set(groupLayers) as Set<string>;
   profile.layerMode = layerMode;
-  let pln = replan(paths, profile);
-  return pln;
+  let plan = replan(paths, profile);
+  return { plan, svg };
 }
 
-export function svgStringToPaths(svg: Uint8Array): Vec2[][] {
+export function svgStringToPaths(svg: Uint8Array) {
   let div = document.createElement("div");
   let svgString = new TextDecoder().decode(svg);
   let el = null;
@@ -41,7 +41,10 @@ export function svgStringToPaths(svg: Uint8Array): Vec2[][] {
   } catch (err) {
     throw "Not a valid svg" + err;
   }
-  return svgElementToPaths(el);
+  return {
+    svg: el,
+    paths: svgElementToPaths(el),
+  };
 }
 
 export function svgElementToPaths(svg: SVGElement): Vec2[][] {

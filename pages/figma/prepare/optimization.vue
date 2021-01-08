@@ -31,6 +31,22 @@
         min="0"
       />
     </section>
+    <section>
+      <h4>Debug</h4>
+      <div class="figma-svg" v-html="svgHtml"></div>
+      <details>
+        <summary>
+          <label for="">Options</label>
+        </summary>
+        <pre>{{ options }}</pre>
+      </details>
+      <details>
+        <summary>
+          <label for="">State</label>
+        </summary>
+        <pre>{{ state }}</pre>
+      </details>
+    </section>
   </div>
 </template>
 
@@ -38,7 +54,31 @@
 import Settings from "./settings";
 export default {
   extends: Settings,
+  computed: {
+    svgHtml() {
+      let svg = this.state.svg;
+      let html = svg.outerHTML;
+      debugger;
+      return html;
+    },
+  },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.settings {
+  margin: var(--margin);
+  margin-top: 0;
+}
+.figma-svg {
+  width: 100%;
+  &::v-deep svg {
+    max-width: 100%;
+    object-fit: contain;
+    height: auto;
+    * {
+      stroke: black;
+    }
+  }
+}
+</style>

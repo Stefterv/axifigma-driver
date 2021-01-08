@@ -27,6 +27,62 @@
         property="name"
       >
       </FigmaSelect>
+      <div class="label">Orientation</div>
+      <div class="orientations">
+        <div
+          class="orientation"
+          @click="setPortrait(true)"
+          :class="{
+            active: (isPortrait =
+              options.paperSize.size.x < options.paperSize.size.y),
+            canvas: (isCanvasPortrait = state.svg.width < state.svg.height),
+          }"
+          :title="
+            (title =
+              isPortrait == isCanvasPortrait
+                ? ''
+                : '⚠️ The paper orientation does not correspond to the figma canvas')
+          "
+        >
+          <svg
+            class="svg"
+            width="8"
+            height="14"
+            viewBox="0 0 8 14"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7 1H1v12h6V1zM1 0H0v14h8V0H1z"
+              fill-rule="evenodd"
+              fill-opacity="1"
+              fill="#000"
+              stroke="none"
+            ></path>
+          </svg>
+        </div>
+        <div
+          class="orientation"
+          @click="setPortrait(false)"
+          :class="{ active: !isPortrait, canvas: !isCanvasPortrait }"
+          :title="title"
+        >
+          <svg
+            class="svg"
+            width="14"
+            height="8"
+            viewBox="0 0 14 8"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 1v6h12V1H1zM0 7v1h14V0H0v7z"
+              fill-rule="evenodd"
+              fill-opacity="1"
+              fill="#000"
+              stroke="none"
+            ></path>
+          </svg>
+        </div>
+      </div>
       <div class="label">Width</div>
       <div suffix="mm">
         <input
@@ -111,6 +167,7 @@
 <script>
 import { selectMenu, disclosure } from "figma-plugin-ds";
 import FigmaSelect from "~/components/select";
+import { port } from "~/plugins/saxi/config";
 
 export default {
   inject: ["state", "saxi", "options", "presets", "paperPresets"],
@@ -161,6 +218,15 @@ export default {
     },
   },
   methods: {
+    setPortrait(portrait) {
+      let size = this.options.paperSize.size;
+      let min = Math.min(size.x, size.y);
+      let max = Math.max(size.x, size.y);
+      size.x = portrait ? min : max;
+      size.y = !portrait ? min : max;
+
+      this.options.paperSize = { size };
+    },
     feedback() {
       window.open("https://github.com/Stefterv/axifigma-driver/issues?q=");
     },
@@ -201,5 +267,31 @@ h4 {
 }
 .button.pen {
   justify-content: center;
+}
+.orientations {
+  display: flex;
+  &:hover {
+    .orientation {
+      border-color: #eee;
+    }
+  }
+  .orientation {
+    border: 1px solid transparent;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // &.canvas {
+    //   border-color: red;
+    // }
+    &.active {
+      background: #eee;
+      border-color: #eee;
+    }
+    &.canvas:not(.active) {
+      outline: 1px solid red;
+    }
+  }
 }
 </style>

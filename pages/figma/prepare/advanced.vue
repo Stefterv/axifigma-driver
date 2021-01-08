@@ -91,12 +91,6 @@
         />
       </div>
     </section>
-    <details>
-      <summary>
-        <label for="">Debug Information</label>
-      </summary>
-      <pre>{{ options }}</pre>
-    </details>
   </div>
 </template>
 

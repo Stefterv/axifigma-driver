@@ -17,6 +17,7 @@ export default {
         plan: null,
         path: null,
         possiblePlan: null,
+        svg: null,
       },
       socket: null,
     };
