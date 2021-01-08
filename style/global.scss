@@ -15,6 +15,7 @@ body,
 #__nuxt,
 #__layout {
   width: 100%;
+
   // min-height: 100vh;
 }
 body {
@@ -25,7 +26,8 @@ hr {
   border-bottom: 1px solid rgba(black, 0.2);
   // margin: 0 var(--margin);
   margin: 0;
-  min-width: 300px - 24px;
+  // min-width: 300px - 24px;
+  min-width: 300px;
 }
 a {
   text-decoration: none;
