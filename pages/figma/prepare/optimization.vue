@@ -33,7 +33,11 @@
     </section>
     <section>
       <h4>Debug</h4>
-      <div class="figma-svg" v-html="svgHtml"></div>
+      <div
+        class="figma-svg"
+        title="Svg exported from Figma"
+        v-html="svgHtml"
+      ></div>
       <details>
         <summary>
           <label for="">Options</label>
@@ -58,7 +62,6 @@ export default {
     svgHtml() {
       let svg = this.state.svg;
       let html = svg.outerHTML;
-      debugger;
       return html;
     },
   },
@@ -74,10 +77,11 @@ export default {
   width: 100%;
   &::v-deep svg {
     max-width: 100%;
-    object-fit: contain;
-    height: auto;
+    max-height: 100vw;
     * {
       stroke: black;
+      stroke-width: 5;
+      fill: none;
     }
   }
 }

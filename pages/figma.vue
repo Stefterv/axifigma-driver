@@ -9,12 +9,7 @@
     </div>
     <hr />
     <nuxt-child></nuxt-child>
-    <template v-if="false">
-      <hr />
-      <details>
-        <pre>{{ { ...state, plotting, running } }}</pre>
-      </details>
-    </template>
+    <Preview> </Preview>
   </div>
 </template>
 
@@ -22,6 +17,7 @@
 import * as Figma from "~/plugins/figma/api";
 import { svgToPlan } from "~/plugins/saxi/helpers/svg";
 import Limp from "~/components/saxi/limp";
+import Preview from "~/components/preview/";
 
 export default {
   layout: "connected",
@@ -51,7 +47,6 @@ export default {
       let opt = this.options ? { ...this.options } : null;
       let { plan, svg } = svgToPlan(svgData, opt);
       this.state.possiblePlan = plan;
-      debugger;
       this.state.svg = svg;
     },
     requestSVG() {
@@ -81,6 +76,7 @@ export default {
   },
   components: {
     Limp,
+    Preview,
   },
   mounted() {
     Figma.registerProperty("pageChanged", this.requestSVG);

@@ -109,6 +109,7 @@
 
 <script>
 import { Device } from "~/node_modules/saxi/src/planning";
+import Preview from "~/components/preview/";
 export default {
   inject: ["state", "options", "saxi", "paperPresets"],
   data() {
@@ -165,6 +166,9 @@ export default {
         return preset.name;
       }
     },
+  },
+  components: {
+    Preview,
   },
 };
 function getKey(key, obj) {

@@ -35,13 +35,15 @@
           :class="{
             active: (isPortrait =
               options.paperSize.size.x < options.paperSize.size.y),
-            canvas: (isCanvasPortrait = state.svg.width < state.svg.height),
+            canvas: (isCanvasPortrait =
+              parseInt(state.svg.attributes.width.value) <
+              parseInt(state.svg.attributes.height.value)),
           }"
           :title="
             (title =
               isPortrait == isCanvasPortrait
                 ? ''
-                : '⚠️ The paper orientation does not correspond to the figma canvas')
+                : '⚠️ The paper orientation does not correspond to orientation of the selected frame')
           "
         >
           <svg
@@ -232,6 +234,9 @@ export default {
     },
   },
 
+  watch: {
+    "state.svg"(svg) {},
+  },
   components: {
     FigmaSelect,
   },

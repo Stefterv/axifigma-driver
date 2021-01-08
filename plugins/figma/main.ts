@@ -6,14 +6,22 @@ figma.showUI(__html__, {
 });
 
 figma.on("selectionchange", () => {
+  let select = figma.currentPage.selection.filter((item) =>
+    figma.currentPage.children.includes(item)
+  );
+  if (!select[0]) return;
+  frame = select[0];
+
   figma.ui.postMessage({ pageChanged: true });
 });
 figma.on("currentpagechange", () => {
+  frame = figma.currentPage.children[0];
   figma.ui.postMessage({ pageChanged: true });
 });
 
+let frame = figma.currentPage.selection[0] || figma.currentPage.children[0];
 async function exportSVG() {
-  let svg = await figma.currentPage.exportAsync({
+  let svg = await frame.exportAsync({
     format: "SVG",
     svgOutlineText: true,
     svgSimplifyStroke: true,
@@ -35,7 +43,7 @@ function insertCurrent({ size, presetName }) {
   frame.resize(size.x, size.y);
   frame.name = `AxiDraw - ${presetName}`;
   figma.currentPage.appendChild(frame);
-  // debugger;
+  // ;
   // console.log(size);
 }
 registerMessage("insertCurrent", insertCurrent);
