@@ -12,10 +12,7 @@
         ></progress>
       </div>
     </template>
-    <button
-      class="button button--primary"
-      @click="state.paused ? resume : paused"
-    >
+    <button class="button button--primary" @click="toggle">
       {{ state.paused ? "resume" : "pause" }}
     </button>
     <button class="button button--primary-destructive" @click="cancel">
@@ -38,11 +35,8 @@ export default {
     };
   },
   methods: {
-    resume() {
-      this.$axios.post("/saxi/resume");
-    },
-    pause() {
-      this.$axios.post("/saxi/pause");
+    toggle() {
+      this.$axios.post(`/saxi/${this.state.paused ? "resume" : "pause"}`);
     },
     cancel() {
       this.$axios.post("/saxi/cancel");
