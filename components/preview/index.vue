@@ -1,11 +1,15 @@
 <template>
   <div class="preview">
     <h4>Preview</h4>
-    <svg v-if="state.possiblePlan" :viewBox="preview.viewBox">
+    <svg v-if="preview" :viewBox="preview.viewBox">
       <line
         v-for="motion in preview.motions"
         :key="motion.id"
-        :class="{ drawn: state.motionIdx > motion.id, penDown: motion.penDown }"
+        :class="{
+          drawn: state.motionIdx > motion.id,
+          current: state.motionIdx == motion.id,
+          penDown: motion.penDown,
+        }"
         :x1="motion.p1.x"
         :x2="motion.p2.x"
         :y1="motion.p1.y"
@@ -20,8 +24,8 @@ export default {
   inject: ["state"],
   computed: {
     preview() {
-      let plan = this.state.possiblePlan;
-      if (!plan) return {};
+      let plan = this.state.plan || this.state.possiblePlan;
+      if (!plan) return;
       let penDown = false;
       let motions = plan.motions
         .map((motion, index) => {
@@ -80,6 +84,9 @@ line {
     stroke: black;
   }
   &.drawn {
+    stroke: green;
+  }
+  &.current {
     stroke: red;
   }
 }
