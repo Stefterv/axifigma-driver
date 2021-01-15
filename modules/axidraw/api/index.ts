@@ -1,22 +1,36 @@
 import express from "express";
-import mdns, { tcp, Service } from "mdns";
+import Discovery from "./Discovery";
+import WebSocket, { Server } from "ws";
+import { State } from "./State";
+import { EventEmitter } from "events";
+import Clients from "./Clients";
+import { Module } from "@nuxt/types";
+import { AppEvents } from "./Command";
+import Devices from "./Devices";
 
-const app = express();
+export class AxidrawApi extends EventEmitter implements AppEvents {
+  rest = express();
+  wss = new Server({ noServer: true });
+  state = new State();
+}
+const app = new AxidrawApi();
+Clients(app);
+Discovery(app);
+Devices(app);
 
-const type = tcp("axidraw");
+let nuxtModule: Module = function() {
+  this.addServerMiddleware({
+    path: "/axidraw/",
+    handler: app.rest,
+  });
+  this.nuxt.hook("listen", (server: Server) => {
+    server.on("upgrade", (request, socket, head) => {
+      if (request.url !== "/axidraw/") return;
+      app.wss.handleUpgrade(request, socket, head, (ws: WebSocket) => {
+        app.wss.emit("connection", ws);
+      });
+    });
+  });
+};
 
-const ad = mdns.createAdvertisement(type, 9000);
-ad.start();
-
-const services = new Array<Service>();
-const discovery = mdns.createBrowser(type);
-discovery.start();
-discovery.on("serviceUp", (service) => {
-  services.push(service);
-});
-
-app.get("/", async (req, res, next) => {
-  res.json(services);
-});
-
-export default app;
+export default nuxtModule;

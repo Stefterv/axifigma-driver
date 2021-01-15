@@ -24,6 +24,8 @@
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/sitemap": "^2.4.0",
     "@types/mdns": "0.0.33",
+    "@types/serialport": "^8.0.1",
+    "@types/ws": "^7.4.0",
     "cookie-universal-nuxt": "^2.1.4",
     "debounce": "^1.2.0",
     "electron-updater": "^4.3.5",
@@ -33,7 +35,8 @@
     "mdns": "^2.7.2",
     "menubar": "^9.0.1",
     "nuxt": "^2.14.6",
-    "saxi": "github:stefterv/saxi"
+    "saxi": "github:stefterv/saxi",
+    "serialport": "^9.0.4"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.16.1",
