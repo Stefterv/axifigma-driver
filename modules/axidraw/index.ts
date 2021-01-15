@@ -8,11 +8,3 @@ const AxidrawModule: Module = function(moduleOptions) {
 };
 
 export default AxidrawModule;
-
-import bonjour from "bonjour";
-const discovery = bonjour({});
-discovery.publish({
-  name: "AxiDraw",
-  port: 9000,
-  type: "axidraw",
-});

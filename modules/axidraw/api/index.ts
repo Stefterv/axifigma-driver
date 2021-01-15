@@ -1,15 +1,21 @@
 import express from "express";
-
-import bonjour from "bonjour";
-
-const discovery = bonjour({});
+import mdns, { tcp, Service } from "mdns";
 
 const app = express();
 
+const type = tcp("axidraw");
+
+const ad = mdns.createAdvertisement(type, 9000);
+
+const services = new Array<Service>();
+const discovery = mdns.createBrowser(type);
+discovery.start();
+discovery.on("serviceUp", (service) => {
+  debugger;
+  services.push(service);
+});
+
 app.get("/", async (req, res, next) => {
-  let services = await new Promise<bonjour.RemoteService>((resolve) =>
-    discovery.find({ type: "axidraw" }, resolve)
-  );
   res.json(services);
 });
 
