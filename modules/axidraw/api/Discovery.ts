@@ -41,7 +41,6 @@ export default function(app: AxidrawApi) {
       let handler: CommandObject<AxidrawApi> = {
         Devices(devices) {
           devices = devices.filter((device) => !device.host);
-          if (!devices.length) return;
           let changed = false;
 
           let unknown = app.state.devices.filter(
@@ -81,7 +80,6 @@ export default function(app: AxidrawApi) {
       let ws = new WebSocket(`ws://${service.host}:${service.port}/axidraw/`);
       ws.addEventListener("message", receive);
       ws.addEventListener("close", () => {
-        debugger;
         handler.Devices.apply(app, [[]]);
       });
     } catch (err) {
