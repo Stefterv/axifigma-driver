@@ -32,12 +32,17 @@
         <div
           class="orientation"
           @click="setPortrait(true)"
-          :class="{
-            active: (isPortrait =
-              options.paperSize.size.x < options.paperSize.size.y),
-            canvas: (isCanvasPortrait =
+          :isPortrait="
+            (isPortrait = options.paperSize.size.x < options.paperSize.size.y)
+          "
+          :isCanvasPortrait="
+            (isCanvasPortrait =
               parseInt(state.svg.attributes.width.value) <
-              parseInt(state.svg.attributes.height.value)),
+              parseInt(state.svg.attributes.height.value))
+          "
+          :class="{
+            active: isPortrait,
+            canvas: isCanvasPortrait,
           }"
           :title="
             (title =
@@ -154,7 +159,7 @@
           class="icon icon--warning"
           v-if="!options.cropToMargins"
           :title="
-            'Turning off crop to margins might cause the axidraw to draw outside it\'s range.\nTip: turn on crop to margins but set the margin to 0'
+            `Turning off crop to margins might cause the axidraw to draw outside it\'s range.\nTip: turn on crop to margins but set the margin to 0`
           "
         ></div>
       </div>
