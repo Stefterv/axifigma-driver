@@ -13,6 +13,7 @@ export default {
   modules: [
     "~/plugins/electron/compile",
     "~/plugins/figma/compile",
+    "~/modules/axidraw/",
 
     "@nuxtjs/axios",
     "@nuxtjs/sitemap",
