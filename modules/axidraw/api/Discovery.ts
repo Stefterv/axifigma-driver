@@ -29,7 +29,8 @@ interface CommandObject<T> {
 export default function(app: AxidrawApi) {
   app.rest.get("/discovery/", (req, res, next) => res.json(services));
 
-  app.on("listen", () => {
+  app.on("listen", async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     ad.start();
   });
 
