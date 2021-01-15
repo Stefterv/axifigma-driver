@@ -58,7 +58,6 @@ export default function(app: AxidrawApi) {
     let devices = app.state.devices;
     for (let device of [...devices]) {
       if (device.origin !== service.name) continue;
-      debugger;
 
       devices.splice(devices.indexOf(device), 1);
     }
