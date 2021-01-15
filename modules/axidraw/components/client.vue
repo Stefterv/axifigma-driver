@@ -10,6 +10,7 @@
 import { AxiState } from "../api/State";
 import { Vue, Component } from "nuxt-property-decorator";
 import { Command } from "../api/Command";
+import { Device } from "../api/Device";
 
 export interface CommandObject<T> {
   [command: string]: (this: T, data: any) => void;
@@ -23,6 +24,7 @@ export default class AxiClient extends Vue {
 
   handler: CommandObject<AxiClient> = {
     Devices(devices) {
+      devices.map((device) => Object.setPrototypeOf(device, Device.prototype));
       this.state.devices = devices;
     },
   };

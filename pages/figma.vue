@@ -1,9 +1,8 @@
 <template>
   <div class="figma">
-    <Provide> </Provide>
     <div class="status">
       <div class="description" :class="{ [status]: true }">
-        {{ status }}
+        <DeviceSelect> </DeviceSelect>
       </div>
       <Limp> </Limp>
     </div>
@@ -19,6 +18,7 @@ import * as Figma from "~/plugins/figma/api";
 import { svgToPlan } from "~/plugins/saxi/helpers/svg";
 import Limp from "~/components/saxi/limp";
 import Preview from "~/components/preview/";
+import DeviceSelect from "~/modules/axidraw/components/device";
 
 export default {
   layout: "connected",
@@ -78,6 +78,7 @@ export default {
   components: {
     Limp,
     Preview,
+    DeviceSelect,
   },
   mounted() {
     Figma.registerProperty("pageChanged", this.requestSVG);

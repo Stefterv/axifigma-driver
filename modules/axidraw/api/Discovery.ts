@@ -2,7 +2,7 @@ import { AxidrawApi } from ".";
 import mdns, { tcp, Service } from "mdns";
 import os from "os";
 import axios from "axios";
-import { Device } from "./Devices";
+import { Device } from "./Device";
 
 const type = tcp("axidraw");
 

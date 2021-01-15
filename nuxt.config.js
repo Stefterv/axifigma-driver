@@ -11,6 +11,15 @@ export default {
   },
   css: ["~/style/global.scss"],
   buildModules: ["@nuxt/typescript-build"],
+  build: {
+    extend(config, { isDev, isClient }) {
+      if (!isClient) return;
+      config.node = {
+        fs: "empty",
+        child_process: "empty",
+      };
+    },
+  },
   modules: [
     "~/plugins/electron/compile",
     "~/plugins/figma/compile",

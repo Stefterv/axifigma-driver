@@ -1,5 +1,5 @@
 import { Client } from "./Clients";
-import { Device } from "./Devices";
+import { Device } from "./Device";
 
 export class AxiState {
   devices = new Array<Device>();

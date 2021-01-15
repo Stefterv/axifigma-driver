@@ -5,17 +5,7 @@ import { EventEmitter } from "events";
 
 import { AxidrawApi } from ".";
 import { Command } from "./Command";
-
-export class Device implements SerialPort.PortInfo {
-  path!: string;
-  manufacturer?: string | undefined;
-  serialNumber?: string | undefined;
-  pnpId?: string | undefined;
-  locationId?: string | undefined;
-  productId?: string | undefined;
-  vendorId?: string | undefined;
-  host?: string; // is the device external?
-}
+import { Device } from "./Device";
 
 export interface DevicesData extends Array<Device> {}
 
@@ -31,6 +21,7 @@ export default function(app: AxidrawApi) {
 
   let simulator = new Device();
   simulator.path = "/dev/tty/simulator";
+  simulator.name = "Simulator";
   app.state.devices.push(simulator);
 
   devices.on("found", (device) => {

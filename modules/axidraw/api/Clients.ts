@@ -1,5 +1,5 @@
 import { AxidrawApi } from ".";
-import { Device } from "./Devices";
+import { Device } from "./Device";
 import WebSocket from "ws";
 import { ClientCommands, Command } from "./Command";
 
