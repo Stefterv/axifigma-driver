@@ -3,11 +3,12 @@ import mdns, { tcp, Service } from "mdns";
 import os from "os";
 import axios from "axios";
 import { Device } from "./Device";
+import { Command } from "./Command";
+import WebSocket from "ws";
 
 const type = tcp("axidraw");
 
 const ad = mdns.createAdvertisement(type, 9000);
-ad.start();
 
 const hostname = os.hostname();
 
@@ -23,14 +24,14 @@ discovery.on("serviceDown", (service) => {
 
 discovery.start();
 
+export interface CommandObject<T> {
+  [command: string]: (this: T, data: any) => void;
+}
+
 export default function(app: AxidrawApi) {
   app.rest.get("/discovery/", (req, res, next) => res.json(services));
-  app.rest.get("/discovery/devices/", (req, res, next) =>
-    res.json(app.state.devices.filter((device) => !device.host))
-  );
 
-  app.on("device", () => {
-    ad.stop();
+  app.on("listen", () => {
     ad.start();
   });
 
@@ -38,30 +39,54 @@ export default function(app: AxidrawApi) {
     if (service.name == hostname) return;
     console.info("Driver found!", service.host);
     try {
-      let resp = await axios.get<typeof app.state.devices>(
-        `http://${service.host}:${service.port}/axidraw/discovery/devices/`
-      );
+      let handler: CommandObject<AxidrawApi> = {
+        Devices(devices) {
+          devices = devices.filter((device) => !device.host);
+          if (!devices.length) return;
+          let changed = false;
 
-      let devices = resp.data;
-      console.info("Driver devices:", devices);
-      for (let device of devices) {
-        device.host = service.host;
-        device.origin = service.name;
-        app.state.devices.push(device);
-        app.refreshDevices();
+          let unknown = app.state.devices.filter(
+            (device) => device.host == service.host
+          );
+          for (let device of devices) {
+            let exists = unknown.find((exist) => exist.path == device.path);
+            if (!exists) {
+              device.host = service.host;
+              device.origin = service.name;
+              this.state.devices.push(device);
+
+              changed = true;
+            } else {
+              unknown.splice(unknown.indexOf(exists), 1);
+            }
+          }
+          for (let removed of unknown) {
+            changed = true;
+            this.state.devices.splice(this.state.devices.indexOf(removed), 1);
+          }
+          if (changed) this.refreshDevices();
+        },
+      };
+
+      function recieve(event: MessageEvent<any>) {
+        console.log("Message from server ", event.data);
+        let json = JSON.parse(event.data);
+        if (!json.cmd) return;
+        let command: Command = json.cmd;
+        if (!handler[command]) {
+          console.error("Unrecognised command: ", command, event.data);
+          return;
+        }
+        handler[command].apply(app, [json.data]);
       }
+
+      let ws = new WebSocket(`ws://${service.host}:${service.port}/axidraw/`);
+      ws.addEventListener("message", recieve);
+      ws.addEventListener("close", () => {
+        handler.Devices.apply(app, [[]]);
+      });
     } catch (err) {
       console.warn("Driver connection error!", service.host, err);
     }
-  });
-  discovery.on("serviceDown", (service) => {
-    if (service.name == hostname) return;
-    let devices = app.state.devices;
-    for (let device of [...devices]) {
-      if (device.origin !== service.name) continue;
-
-      devices.splice(devices.indexOf(device), 1);
-    }
-    app.refreshDevices();
   });
 }

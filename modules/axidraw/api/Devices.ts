@@ -54,7 +54,9 @@ class DeviceCache extends EventEmitter implements DeviceCacheEvents {
     for (let device of devices) {
       let exists = unknown.find((exist) => exist.path == device.path);
       if (!exists) {
-        this.emit("found", device);
+        let axidevice = new Device();
+        Object.assign(axidevice, device);
+        this.emit("found", axidevice);
         this.deviceList.push(device);
       } else {
         unknown.splice(unknown.indexOf(exists), 1);

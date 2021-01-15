@@ -30,6 +30,7 @@ let nuxtModule: Module = function() {
     handler: app.rest,
   });
   this.nuxt.hook("listen", (server: Server) => {
+    app.emit("listen", server);
     server.on("upgrade", (request, socket, head) => {
       if (request.url !== "/axidraw/") return;
       app.wss.handleUpgrade(request, socket, head, (ws: WebSocket) => {
