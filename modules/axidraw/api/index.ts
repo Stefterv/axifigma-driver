@@ -5,13 +5,19 @@ import { AxiState } from "./State";
 import { EventEmitter } from "events";
 import Clients from "./Clients";
 import { Module } from "@nuxt/types";
-import { AppEvents } from "./Command";
+import { AppEvents, Command } from "./Command";
 import Devices from "./Devices";
 
 export class AxidrawApi extends EventEmitter implements AppEvents {
   rest = express();
   wss = new Server({ noServer: true });
   state = new AxiState();
+
+  refreshDevices() {
+    app.state.clients.map((client) =>
+      client.send(Command.Devices, app.state.devices)
+    );
+  }
 }
 const app = new AxidrawApi();
 Clients(app);

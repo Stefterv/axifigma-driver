@@ -29,7 +29,7 @@ export default function(app: AxidrawApi) {
     res.json(app.state.devices.filter((device) => !device.host))
   );
 
-  app.on("device", (device) => {
+  app.on("device", () => {
     ad.stop();
     ad.start();
   });
@@ -48,6 +48,7 @@ export default function(app: AxidrawApi) {
         device.host = service.host;
         device.origin = service.name;
         app.state.devices.push(device);
+        app.refreshDevices();
       }
     } catch (err) {
       console.warn("Driver connection error!", service.host, err);
@@ -61,5 +62,6 @@ export default function(app: AxidrawApi) {
 
       devices.splice(devices.indexOf(device), 1);
     }
+    app.refreshDevices();
   });
 }

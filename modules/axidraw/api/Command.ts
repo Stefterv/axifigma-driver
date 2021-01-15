@@ -18,5 +18,5 @@ export declare interface ClientCommands {
 
 export declare interface AppEvents {
   on(event: "client", listener: (client: Client) => void): this;
-  on(event: "device", listener: (device: Device) => void): this;
+  on(event: "device", listener: () => void): this;
 }

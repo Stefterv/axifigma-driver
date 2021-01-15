@@ -27,16 +27,12 @@ export default function(app: AxidrawApi) {
   devices.on("found", (device) => {
     console.info("Device found: ", device.path);
     app.state.devices.push(device);
-    app.state.clients.map((client) =>
-      client.send(Command.Devices, app.state.devices)
-    );
+    app.refreshDevices();
     app.emit("device");
   });
   devices.on("lost", (device) => {
     app.state.devices.splice(app.state.devices.indexOf(device), 1);
-    app.state.clients.map((client) =>
-      client.send(Command.Devices, app.state.devices)
-    );
+    app.refreshDevices();
     app.emit("device");
   });
 }
