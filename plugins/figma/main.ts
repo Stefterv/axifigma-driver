@@ -43,7 +43,5 @@ function insertCurrent({ size, presetName }) {
   frame.resize(size.x, size.y);
   frame.name = `AxiDraw - ${presetName}`;
   figma.currentPage.appendChild(frame);
-  // ;
-  // console.log(size);
 }
 registerMessage("insertCurrent", insertCurrent);
