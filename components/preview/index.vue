@@ -3,8 +3,8 @@
     <h4>Preview</h4>
     <svg v-if="preview" :viewBox="preview.viewBox">
       <line
-        v-for="motion in preview.motions"
-        :key="motion.id"
+        v-for="(motion, index) in preview.motions"
+        :key="index"
         :class="{
           drawn: state.motionIdx > motion.id,
           current: state.motionIdx == motion.id,
