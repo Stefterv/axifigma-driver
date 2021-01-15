@@ -6,6 +6,7 @@ export default {
   nuxtPort,
   saxiPort: Saxi.port,
   server: {
+    host: "0.0.0.0",
     port: nuxtPort,
   },
   css: ["~/style/global.scss"],
