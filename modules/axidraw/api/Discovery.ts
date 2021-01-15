@@ -1,8 +1,6 @@
 import { AxidrawApi } from ".";
 import mdns, { tcp, Service } from "mdns";
 import os from "os";
-import axios from "axios";
-import { Device } from "./Device";
 import { Command } from "./Command";
 import WebSocket from "ws";
 
@@ -24,7 +22,7 @@ discovery.on("serviceDown", (service) => {
 
 discovery.start();
 
-export interface CommandObject<T> {
+interface CommandObject<T> {
   [command: string]: (this: T, data: any) => void;
 }
 
@@ -68,21 +66,21 @@ export default function(app: AxidrawApi) {
         },
       };
 
-      function recieve(event: MessageEvent<any>) {
+      function receive(event: MessageEvent<any>) {
         console.log("Message from server ", event.data);
         let json = JSON.parse(event.data);
         if (!json.cmd) return;
         let command: Command = json.cmd;
         if (!handler[command]) {
-          console.error("Unrecognised command: ", command, event.data);
           return;
         }
         handler[command].apply(app, [json.data]);
       }
 
       let ws = new WebSocket(`ws://${service.host}:${service.port}/axidraw/`);
-      ws.addEventListener("message", recieve);
+      ws.addEventListener("message", receive);
       ws.addEventListener("close", () => {
+        debugger;
         handler.Devices.apply(app, [[]]);
       });
     } catch (err) {

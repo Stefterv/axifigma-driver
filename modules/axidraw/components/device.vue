@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Inject } from "nuxt-property-decorator";
+import { Vue, Component, Inject, Watch } from "nuxt-property-decorator";
 import { Device } from "../api/Device";
 import { AxiState } from "../api/State";
 @Component
@@ -28,6 +28,14 @@ export default class DeviceSelect extends Vue {
   }
   set device(device) {
     this.selected = device;
+  }
+  @Watch("state.devices")
+  deviceUpdate(devices) {
+    let selected = devices.find(
+      (device) => device.unique === this.selected?.unique
+    );
+    if (selected) return;
+    this.selected = devices[0];
   }
 }
 </script>
