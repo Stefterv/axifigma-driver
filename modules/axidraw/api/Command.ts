@@ -1,5 +1,4 @@
 import { Client } from "./Clients";
-import { Device } from "./Device";
 import { DevicesData } from "./Devices";
 
 // Available commands that are available to websocket clients
@@ -7,6 +6,7 @@ export enum Command {
   Null,
   State,
   Devices,
+  Select,
 }
 
 export interface NullData {}

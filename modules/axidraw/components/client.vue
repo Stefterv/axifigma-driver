@@ -7,8 +7,9 @@
 </template>
 
 <script lang="ts">
-import { AxiState } from "../api/State";
 import { Vue, Component } from "nuxt-property-decorator";
+
+import { AxiState } from "../api/State";
 import { Command } from "../api/Command";
 import { Device } from "../api/Device";
 
