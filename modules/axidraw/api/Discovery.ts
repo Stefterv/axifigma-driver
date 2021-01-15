@@ -29,6 +29,11 @@ export default function(app: AxidrawApi) {
     res.json(app.state.devices.filter((device) => !device.host))
   );
 
+  app.on("device", (device) => {
+    ad.stop();
+    ad.start();
+  });
+
   discovery.on("serviceUp", async (service) => {
     if (service.name == hostname) return;
     console.info("Driver found!", service.host);

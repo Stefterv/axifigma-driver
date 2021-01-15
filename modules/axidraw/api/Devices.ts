@@ -30,12 +30,14 @@ export default function(app: AxidrawApi) {
     app.state.clients.map((client) =>
       client.send(Command.Devices, app.state.devices)
     );
+    app.emit("device");
   });
   devices.on("lost", (device) => {
     app.state.devices.splice(app.state.devices.indexOf(device), 1);
     app.state.clients.map((client) =>
       client.send(Command.Devices, app.state.devices)
     );
+    app.emit("device");
   });
 }
 

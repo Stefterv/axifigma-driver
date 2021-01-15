@@ -6,7 +6,7 @@
         :key="device.unique"
         :value="device"
       >
-        <template v-if="device.host">{{ device.host }}:</template>
+        <template v-if="device.origin">{{ device.origin }}:</template>
         {{ device.name }}
       </option>
     </select>
