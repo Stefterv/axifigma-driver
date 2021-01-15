@@ -41,6 +41,7 @@ export default function(app: AxidrawApi) {
       console.info("Driver devices:", devices);
       for (let device of devices) {
         device.host = service.host;
+        device.origin = service.name;
         app.state.devices.push(device);
       }
     } catch (err) {
@@ -51,7 +52,8 @@ export default function(app: AxidrawApi) {
     if (service.name == hostname) return;
     let devices = app.state.devices;
     for (let device of [...devices]) {
-      if (device.host !== service.host) continue;
+      if (device.origin !== service.name) continue;
+      debugger;
 
       devices.splice(devices.indexOf(device), 1);
     }

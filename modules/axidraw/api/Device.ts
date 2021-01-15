@@ -10,6 +10,7 @@ export class Device implements SerialPort.PortInfo {
   vendorId?: string | undefined;
   host?: string; // is the device external?
   name = "Axidraw";
+  origin?: string;
 
   get unique() {
     return `${this.host || "local"}:${this.path}`;
