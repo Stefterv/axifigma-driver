@@ -31,19 +31,20 @@ export default function(app: AxidrawApi) {
 
   discovery.on("serviceUp", async (service) => {
     if (service.name == hostname) return;
+    console.info("Driver found!", service.host);
     try {
       let resp = await axios.get<typeof app.state.devices>(
         `http://${service.host}:${service.port}/axidraw/discovery/devices/`
       );
+
       let devices = resp.data;
-      debugger;
+      console.info("Driver devices:", devices);
       for (let device of devices) {
-        debugger;
         device.host = service.host;
         app.state.devices.push(device);
       }
     } catch (err) {
-      debugger;
+      console.warn("Driver connection error!", service.host, err);
     }
   });
   discovery.on("serviceDown", (service) => {
