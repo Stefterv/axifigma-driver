@@ -1,0 +1,22 @@
+{
+  "vue-property-decorator": {
+    "description": "Hopefully the only boilerplat I'll need",
+    "prefix": [
+      "<script> typescript (vue-property-decorator)",
+      "script typescript"
+    ],
+    "body": [
+      "<script lang=\"ts\">",
+      "import { Vue, Component } from \"nuxt-property-decorator\";",
+      "@Component",
+      "export default class $1 extends Vue {",
+      " $2",
+      "}",
+      "</script>"
+    ]
+  },
+  "default": {
+    "prefix": "default",
+    "body": ["<template>", " <div>", "     $1", " </div>", "</template>"]
+  }
+}

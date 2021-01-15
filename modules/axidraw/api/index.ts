@@ -1,7 +1,7 @@
 import express from "express";
 import Discovery from "./Discovery";
 import WebSocket, { Server } from "ws";
-import { State } from "./State";
+import { AxiState } from "./State";
 import { EventEmitter } from "events";
 import Clients from "./Clients";
 import { Module } from "@nuxt/types";
@@ -11,7 +11,7 @@ import Devices from "./Devices";
 export class AxidrawApi extends EventEmitter implements AppEvents {
   rest = express();
   wss = new Server({ noServer: true });
-  state = new State();
+  state = new AxiState();
 }
 const app = new AxidrawApi();
 Clients(app);

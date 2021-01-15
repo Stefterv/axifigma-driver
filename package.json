@@ -35,6 +35,7 @@
     "mdns": "^2.7.2",
     "menubar": "^9.0.1",
     "nuxt": "^2.14.6",
+    "nuxt-property-decorator": "^2.8.8",
     "saxi": "github:stefterv/saxi",
     "serialport": "^9.0.4"
   },

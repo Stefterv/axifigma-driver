@@ -1,7 +1,7 @@
 import { Client } from "./Clients";
 import { Device } from "./Devices";
 
-export class State {
+export class AxiState {
   devices = new Array<Device>();
   clients = new Array<Client>();
 }

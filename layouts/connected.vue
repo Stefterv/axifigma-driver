@@ -13,11 +13,13 @@
     </div>
     <Alive v-slot="{ connected }">
       <template v-if="connected">
-        <State>
-          <Settings>
-            <nuxt-child></nuxt-child>
-          </Settings>
-        </State>
+        <AxiState>
+          <State>
+            <Settings>
+              <nuxt-child></nuxt-child>
+            </Settings>
+          </State>
+        </AxiState>
       </template>
       <Offline v-else> </Offline>
     </Alive>
@@ -29,6 +31,7 @@ import Alive from "~/components/saxi/alive";
 import State from "~/components/saxi/state";
 import Settings from "~/components/saxi/settings";
 import Offline from "~/components/saxi/offline";
+import AxiState from "~/modules/axidraw/components/client";
 
 export default {
   components: {
@@ -36,6 +39,7 @@ export default {
     Offline,
     State,
     Settings,
+    AxiState,
   },
   data() {
     return {

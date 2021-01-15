@@ -12,7 +12,7 @@ export class Client implements ClientCommands {
   send(cmd: Command, data: any) {
     this.socket.send(
       JSON.stringify({
-        cmd,
+        cmd: Command[cmd],
         data,
       })
     );
