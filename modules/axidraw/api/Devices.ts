@@ -1,8 +1,6 @@
 import SerialPort from "serialport";
 import { EventEmitter } from "events";
 
-// List and connect to available devices
-
 import { AxidrawApi } from ".";
 import { Command } from "./Command";
 import { Device } from "./Device";
