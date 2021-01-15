@@ -36,13 +36,18 @@ export default function(app: AxidrawApi) {
         `http://${service.host}:${service.port}/axidraw/discovery/devices/`
       );
       let devices = resp.data;
+      debugger;
       for (let device of devices) {
+        debugger;
         device.host = service.host;
         app.state.devices.push(device);
       }
-    } catch (err) {}
+    } catch (err) {
+      debugger;
+    }
   });
   discovery.on("serviceDown", (service) => {
+    if (service.name == hostname) return;
     let devices = app.state.devices;
     for (let device of [...devices]) {
       if (device.host !== service.host) continue;
