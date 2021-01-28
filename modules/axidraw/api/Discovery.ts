@@ -1,8 +1,10 @@
-import { AxidrawApi } from ".";
-import mdns, { tcp, Service } from "mdns";
 import os from "os";
-import { Command } from "./Command";
 import WebSocket from "ws";
+import axios from "axios";
+import mdns, { tcp, Service } from "mdns";
+
+import { AxidrawApi } from ".";
+import { Command } from "./Command";
 
 const type = tcp("axidraw");
 
@@ -75,8 +77,17 @@ export default function(app: AxidrawApi) {
         }
         handler[command].apply(app, [json.data]);
       }
+      const url = `${service.host}:${service.port}/axidraw/`;
+      let res = null;
+      do {
+        res = await axios.get(`http://${url}`).catch((err) => err);
+        debugger;
+      } while (res.status !== 200);
+      {
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+      }
 
-      let ws = new WebSocket(`ws://${service.host}:${service.port}/axidraw/`);
+      let ws = new WebSocket(`ws://${url}`);
       ws.addEventListener("message", receive);
       ws.addEventListener("close", () => {
         handler.Devices.apply(app, [[]]);
