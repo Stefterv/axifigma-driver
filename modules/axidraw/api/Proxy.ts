@@ -30,13 +30,13 @@ proxy.use((req, res, next) => {
   }
 
   let host = req.state?.device?.host;
-  if (host) {
+  if (host && false) {
     console.log(`Web: ${host}`);
     try {
-      delete req.header.cookie;
-      _proxy.web(req, res, {
-        target: `http://${host}`,
-      });
+      // delete req.header.cookie;
+      // _proxy.web(req, res, {
+      //   target: `http://${host}`,
+      // });
     } catch (err) {
       console.error("Proxy error: ", err);
     }
@@ -69,12 +69,12 @@ export default function(app: AxidrawApi) {
         }
 
         let host = req.state?.device?.host;
-        if (host) {
+        if (host && false) {
           console.log(`Ws: ${host}`);
           try {
-            _proxy.ws(req, res, head, {
-              target: `ws://${host}${req.url}`,
-            });
+            // _proxy.ws(req, res, head, {
+            //   target: `ws://${host}${req.url}`,
+            // });
           } catch (err) {
             console.error("WS Socket err: ", err);
           }

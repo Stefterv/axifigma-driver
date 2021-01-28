@@ -56,6 +56,7 @@ export default class AxiClient extends Vue {
 
   mounted() {
     this.reconnect();
+    this.$cookies.set("state", {});
   }
   get protocol() {
     return document.location.protocol.startsWith("https") ? "wss" : "ws";
