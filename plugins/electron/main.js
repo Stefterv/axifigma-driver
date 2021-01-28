@@ -1,6 +1,5 @@
 import { menubar } from "menubar";
 import { Nuxt, loadNuxtConfig } from "nuxt";
-import saxi from "saxi";
 import path from "path";
 import { nuxtPort, saxiPort } from "~/nuxt.config";
 import consola from "consola";
@@ -22,7 +21,6 @@ async function startNuxt() {
   }
 }
 startNuxt();
-saxi.server.startServer(saxiPort);
 
 const _NUXT_URL_ = `http://127.0.0.1:${nuxtPort}/main`;
 const mb = menubar({

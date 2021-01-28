@@ -34,7 +34,7 @@ export default {
   },
   plugins: ["~/plugins/filters", "~/plugins/globals"],
   proxy: {
-    ...Saxi.proxy,
+    // ...Saxi.proxy,
   },
   serverMiddleware: [Saxi.middleware],
   typescript: {

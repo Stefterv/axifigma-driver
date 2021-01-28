@@ -1,3 +1,5 @@
+import saxi from "saxi";
+
 import express from "express";
 import Discovery from "./Discovery";
 import WebSocket, { Server } from "ws";
@@ -25,6 +27,7 @@ Discovery(app);
 Devices(app);
 
 let nuxtModule: Module = function() {
+  let { wss, rest } = saxi.server.standalone();
   this.addServerMiddleware({
     path: "/axidraw/",
     handler: app.rest,
@@ -35,6 +38,22 @@ let nuxtModule: Module = function() {
       if (request.url !== "/axidraw/") return;
       app.wss.handleUpgrade(request, socket, head, (ws: WebSocket) => {
         app.wss.emit("connection", ws);
+      });
+    });
+  });
+
+  rest.get("/", (req, res, next) => {
+    res.json("Hello!");
+  });
+  this.addServerMiddleware({
+    path: "/saxi/",
+    handler: rest,
+  });
+  this.nuxt.hook("listen", (server: Server) => {
+    server.on("upgrade", (request, socket, head) => {
+      if (request.url !== "/saxi/") return;
+      wss.handleUpgrade(request, socket, head, (ws: WebSocket) => {
+        wss.emit("connection", ws);
       });
     });
   });
