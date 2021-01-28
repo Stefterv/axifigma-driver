@@ -1,7 +1,6 @@
 <template>
   <Provide :axistate="state">
-    <div :key="deviceUnique">
-      {{ item }}
+    <div>
       <slot />
     </div>
   </Provide>

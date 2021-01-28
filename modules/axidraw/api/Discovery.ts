@@ -76,7 +76,7 @@ export default function(app: AxidrawApi) {
         }
         handler[command].apply(app, [json.data]);
       }
-      const url = `${service.host}:${service.port}/axidraw/discovery`;
+      const url = `${service.host}:${service.port}/axidraw/`;
       let res = null;
       do {
         console.info(`Trying ${service.host}`);
@@ -88,6 +88,9 @@ export default function(app: AxidrawApi) {
 
       let ws = new WebSocket(`ws://${url}`);
       ws.addEventListener("message", receive);
+      ws.addEventListener("error", (err) => {
+        console.log("Goodbye!", err);
+      });
       ws.addEventListener("close", () => {
         handler.Devices.apply(app, [[]]);
       });
