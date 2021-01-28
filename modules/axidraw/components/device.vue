@@ -16,28 +16,24 @@
 
 <script lang="ts">
 import { Vue, Component, Inject, Watch } from "nuxt-property-decorator";
-import { Device } from "../api/Device";
-import { AxiState } from "../api/State";
+import { AxiClientState } from "./client.vue";
 @Component
 export default class DeviceSelect extends Vue {
-  @Inject("axistate") state!: AxiState;
-
-  selected?: Device;
+  @Inject("axistate") state!: AxiClientState;
 
   get device() {
-    return this.selected;
+    return this.state.device;
   }
   set device(device) {
-    this.$cookies.set("device", device);
-    this.selected = device;
+    this.state.device = device;
   }
   @Watch("state.devices")
   deviceUpdate(devices) {
     let selected = devices.find(
-      (device) => device.unique === this.selected?.unique
+      (device) => device.unique === this.state.device?.unique
     );
     if (selected) return;
-    this.selected = devices[0];
+    this.state.device = devices[0];
   }
 }
 </script>

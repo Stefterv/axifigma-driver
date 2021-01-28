@@ -68,7 +68,6 @@ export default function(app: AxidrawApi) {
       };
 
       function receive(event: MessageEvent<any>) {
-        console.log("Message from server ", event.data);
         let json = JSON.parse(event.data);
         if (!json.cmd) return;
         let command: Command = json.cmd;
@@ -77,14 +76,15 @@ export default function(app: AxidrawApi) {
         }
         handler[command].apply(app, [json.data]);
       }
-      const url = `${service.host}:${service.port}/axidraw/`;
+      const url = `${service.host}:${service.port}/axidraw/discovery`;
       let res = null;
       do {
+        console.info(`Trying ${service.host}`);
         res = await axios.get(`http://${url}`).catch((err) => err);
-      } while (res.status !== 200);
-      {
+        if (res.status === 200) break;
         await new Promise((resolve) => setTimeout(resolve, 5000));
-      }
+      } while (true);
+      console.info(`Connecting to ${service.host}`);
 
       let ws = new WebSocket(`ws://${url}`);
       ws.addEventListener("message", receive);

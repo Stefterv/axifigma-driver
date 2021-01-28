@@ -16,12 +16,12 @@ proxy.use(cookieParser());
 
 // Add proxying
 proxy.use((req, res, next) => {
-  if (req.cookies.device) {
-    req.device = JSON.parse(req.cookies.device);
+  if (req.cookies.state) {
+    req.state = JSON.parse(req.cookies.state);
   }
-  console.log(req.device);
+  console.log(req.state);
 
-  if (req.device?.host) {
+  if (req.state?.device?.host) {
     next();
   } else {
     next();
@@ -44,8 +44,8 @@ export default function(app: AxidrawApi) {
       connect();
       server.on("upgrade", (request, socket, head) => {
         if (request.url !== "/saxi/") return;
+        console.log(`WS: ${request.headers.cookies}`);
         wss.handleUpgrade(request, socket, head, (ws: WebSocket) => {
-          console.log("Connecting ws");
           wss.emit("connection", ws);
         });
       });

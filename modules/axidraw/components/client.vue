@@ -1,13 +1,14 @@
 <template>
   <Provide :axistate="state">
-    <div>
+    <div :key="deviceUnique">
+      {{ item }}
       <slot />
     </div>
   </Provide>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "nuxt-property-decorator";
+import { Vue, Component, Watch } from "nuxt-property-decorator";
 
 import { AxiState } from "../api/State";
 import { Command } from "../api/Command";
@@ -17,9 +18,13 @@ export interface CommandObject<T> {
   [command: string]: (this: T, data: any) => void;
 }
 
+export class AxiClientState extends AxiState {
+  device = new Device();
+}
+
 @Component
 export default class AxiClient extends Vue {
-  state = new AxiState();
+  state = new AxiClientState();
 
   ws!: WebSocket;
 
@@ -55,6 +60,17 @@ export default class AxiClient extends Vue {
   }
   get protocol() {
     return document.location.protocol.startsWith("https") ? "wss" : "ws";
+  }
+
+  get deviceUnique() {
+    return this.state?.device?.unique || "none";
+  }
+
+  @Watch("state", {
+    deep: true,
+  })
+  status(state) {
+    this.$cookies.set("state", state);
   }
 }
 </script>
