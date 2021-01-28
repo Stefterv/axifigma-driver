@@ -5,9 +5,9 @@
   "main": ".nuxt/electron/main.js",
   "scripts": {
     "local/dev/prepare": "npm rebuild",
-    "local/dev": "nuxt",
+    "local/dev": "nuxt-ts",
     "local/build/prepare": "electron-builder install-app-deps",
-    "local/build": "nuxt build",
+    "local/build": "nuxt-ts build",
     "local/build/test": "electron .",
     "local/pack": "electron-builder",
     "local/pack/test": "DIR=$(pwd) && cd / && ./\"$DIR/dist/mac/Axidraw Figma Driver.app/Contents/MacOS/Axidraw Figma Driver\"",
