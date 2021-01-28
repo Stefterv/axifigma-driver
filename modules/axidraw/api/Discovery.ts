@@ -81,7 +81,6 @@ export default function(app: AxidrawApi) {
       let res = null;
       do {
         res = await axios.get(`http://${url}`).catch((err) => err);
-        debugger;
       } while (res.status !== 200);
       {
         await new Promise((resolve) => setTimeout(resolve, 5000));
