@@ -33,6 +33,7 @@ export default function() {
       compiler.outputFileSystem = new NodeOutputFileSystem();
     });
     this.nuxt.hook("build:compiled", async ({ name, compiler }) => {
+      return;
       if (name != "electron") return;
       if (electronProc) {
         electronProc.kill("SIGINT");
