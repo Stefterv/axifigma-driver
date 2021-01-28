@@ -8,7 +8,7 @@ import { EventEmitter } from "events";
 import Clients from "./Clients";
 import { AppEvents, Command } from "./Command";
 import Devices from "./Devices";
-import Saxi from "./Proxy";
+import Proxy from "./Proxy";
 
 export class AxidrawApi extends EventEmitter implements AppEvents {
   rest = express();
@@ -25,7 +25,7 @@ const app = new AxidrawApi();
 Clients(app);
 Discovery(app);
 Devices(app);
-Saxi(app);
+Proxy(app);
 
 let nuxtModule: Module = function() {
   this.addServerMiddleware({

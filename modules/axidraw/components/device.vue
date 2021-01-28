@@ -1,6 +1,7 @@
 <template>
   <div>
     <select v-model="device">
+      <option value="" disabled></option>
       <option
         v-for="device in state.devices"
         :key="device.unique"
@@ -24,9 +25,10 @@ export default class DeviceSelect extends Vue {
   selected?: Device;
 
   get device() {
-    return this.selected || this.state.devices[0];
+    return this.selected;
   }
   set device(device) {
+    this.$cookies.set("device", device);
     this.selected = device;
   }
   @Watch("state.devices")

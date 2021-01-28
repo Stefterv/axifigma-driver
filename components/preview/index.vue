@@ -57,7 +57,6 @@ export default {
       let xMax = motions.reduce(filt(Math.max, "x", Number.MIN_VALUE));
       let yMin = motions.reduce(filt(Math.min, "y", Number.MAX_VALUE));
       let yMax = motions.reduce(filt(Math.max, "y", Number.MIN_VALUE));
-      debugger;
       return {
         motions,
         viewBox: `${xMin} ${yMin} ${xMax} ${yMax}`,
