@@ -10,12 +10,17 @@ export class Client implements ClientCommands {
     this.socket = socket;
   }
   send(cmd: Command, data: any) {
-    this.socket.send(
-      JSON.stringify({
-        cmd: Command[cmd],
-        data,
-      })
-    );
+    if (this.socket.readyState != WebSocket.OPEN) return;
+    try {
+      this.socket.send(
+        JSON.stringify({
+          cmd: Command[cmd],
+          data,
+        })
+      );
+    } catch (err) {
+      console.warn("Error sending to socket: ", err);
+    }
   }
 }
 

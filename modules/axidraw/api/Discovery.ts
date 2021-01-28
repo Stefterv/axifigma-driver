@@ -20,8 +20,6 @@ discovery.on("serviceDown", (service) => {
   services.splice(index, 1);
 });
 
-discovery.start();
-
 interface CommandObject<T> {
   [command: string]: (this: T, data: any) => void;
 }
@@ -32,6 +30,7 @@ export default function(app: AxidrawApi) {
   app.on("listen", async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     ad.start();
+    discovery.start();
   });
 
   discovery.on("serviceUp", async (service) => {

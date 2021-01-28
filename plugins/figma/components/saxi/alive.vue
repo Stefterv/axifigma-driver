@@ -20,7 +20,7 @@ export default {
     },
     async createSocket() {
       try {
-        this.socket = new WebSocket(`ws://127.0.0.1:${saxiPort}`);
+        this.socket = new WebSocket(`ws://127.0.0.1:${nuxtPort}/saxi/`);
         this.socket.onerror = (err) => {};
         return true;
       } catch (err) {

@@ -22,6 +22,7 @@ proxy.use((req, res, next) => {
   console.log(req.device);
 
   if (req.device?.host) {
+    next();
   } else {
     next();
   }
