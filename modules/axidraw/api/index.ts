@@ -1,14 +1,14 @@
-import saxi from "saxi";
-
+import { Module } from "@nuxt/types";
 import express from "express";
+import { Server } from "ws";
+
 import Discovery from "./Discovery";
-import WebSocket, { Server } from "ws";
 import { AxiState } from "./State";
 import { EventEmitter } from "events";
 import Clients from "./Clients";
-import { Module } from "@nuxt/types";
 import { AppEvents, Command } from "./Command";
 import Devices from "./Devices";
+import Saxi from "./Proxy";
 
 export class AxidrawApi extends EventEmitter implements AppEvents {
   rest = express();
@@ -25,38 +25,16 @@ const app = new AxidrawApi();
 Clients(app);
 Discovery(app);
 Devices(app);
+Saxi(app);
 
 let nuxtModule: Module = function() {
   this.addServerMiddleware({
     path: "/axidraw/",
     handler: app.rest,
   });
+  app.emit("init", this);
   this.nuxt.hook("listen", (server: Server) => {
     app.emit("listen", server);
-    server.on("upgrade", (request, socket, head) => {
-      if (request.url !== "/axidraw/") return;
-      app.wss.handleUpgrade(request, socket, head, (ws: WebSocket) => {
-        app.wss.emit("connection", ws);
-      });
-    });
-  });
-
-  let { wss, rest, connect } = saxi.server.standalone();
-  rest.get("/", (req, res, next) => {
-    res.json("Hello!");
-  });
-  this.addServerMiddleware({
-    path: "/saxi/",
-    handler: rest,
-  });
-  this.nuxt.hook("listen", (server: Server) => {
-    connect();
-    server.on("upgrade", (request, socket, head) => {
-      if (request.url !== "/saxi/") return;
-      wss.handleUpgrade(request, socket, head, (ws: WebSocket) => {
-        wss.emit("connection", ws);
-      });
-    });
   });
 };
 

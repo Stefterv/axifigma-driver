@@ -1,6 +1,6 @@
 import { AxidrawApi } from ".";
 import { Device } from "./Device";
-import WebSocket from "ws";
+import WebSocket, { Server } from "ws";
 import { ClientCommands, Command } from "./Command";
 
 export class Client implements ClientCommands {
@@ -20,6 +20,14 @@ export class Client implements ClientCommands {
 }
 
 export default function(app: AxidrawApi) {
+  app.on("listen", (server: Server) => {
+    server.on("upgrade", (request, socket, head) => {
+      if (request.url !== "/axidraw/") return;
+      app.wss.handleUpgrade(request, socket, head, (ws: WebSocket) => {
+        app.wss.emit("connection", ws);
+      });
+    });
+  });
   app.wss.on("connection", (ws) => {
     let client = new Client(ws);
     app.state.clients.push(client);
