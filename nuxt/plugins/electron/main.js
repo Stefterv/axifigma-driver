@@ -2,7 +2,7 @@ import { menubar } from "menubar";
 import { Nuxt, loadNuxtConfig } from "nuxt";
 import saxi from "saxi";
 import path from "path";
-import { nuxtPort, saxiPort } from "~/nuxt.config";
+import { nuxtPort, saxiPort } from "~/nuxt/nuxt.config";
 import consola from "consola";
 import { autoUpdater } from "electron-updater";
 

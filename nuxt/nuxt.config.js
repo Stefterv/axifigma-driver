@@ -11,7 +11,7 @@ export default {
   css: ["~/style/global.scss"],
   buildModules: ["@nuxt/typescript-build"],
   modules: [
-    "~/plugins/electron/compile",
+    // "~/plugins/electron/compile",
     "~/plugins/figma/compile",
 
     "@nuxtjs/axios",
